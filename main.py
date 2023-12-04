@@ -19,7 +19,7 @@ def rhs(z, y, p, k, model):
 		k: horizontal wavenumber
 		model: instance of solar_model
 	"""
-	dydz = np.zeros_like(y)
+	dydz = np.zeros_like(y, dtype=complex)
 	
 	y1, y2 = y
 	assert len(p) == 1
