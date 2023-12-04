@@ -70,15 +70,26 @@ class read_extensive_model(model_reader):
 		'CP': 12,
 		}
 	
+	G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
+	
 	def __init__(self, filename):
 		glob, var = self.read_extensive_solar_model(filename)
 		
 		for k in self.gnames.keys():
-			setattr(self, k, glob[self.gnames[k]])
+			if hasattr(self, 'gunits'):
+				assert k in self.gunits.keys()
+				fac = self.gunits[k]
+			else:
+				fac = 1
+			setattr(self, k, fac*glob[self.gnames[k]])
+			
 		for k in self.vnames.keys():
-			setattr(self, k, var[:,self.vnames[k]])
-		
-		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
+			if hasattr(self, 'vunits'):
+				assert k in self.vunits.keys()
+				fac = self.vunits[k]
+			else:
+				fac = 1
+			setattr(self, k, fac*var[:,self.vnames[k]])
 		
 		self.CV = self.CP**2/( self.P*self.Gamma_1*self.delta**2/(self.rho*self.T) + self.CP )
 		
