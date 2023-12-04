@@ -10,8 +10,8 @@ import scipy.integrate
 import scipy.interpolate
 
 class read_model_file():
-	def __init__(self):
-		self.r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt('solar_model_S_cptrho.l5bi.d.15c', unpack=True)
+	def __init__(self, filename):
+		self.r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
 
 class solar_model():
 	def __init__(self, filename):
