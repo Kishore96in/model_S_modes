@@ -9,20 +9,7 @@ import numpy as np
 import scipy.integrate
 import scipy.interpolate
 
-class read_model_file():
-	def __init__(self, filename):
-		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
-		
-		self.R_sun = 700e8 #cm
-		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
-		self.r = r*self.R_sun
-		
-		R = self.P/(self.rho*self.T)
-		CP = R/(1-1/self.gamma)
-		self.CV = CP-R
-		
-		self.sort_by(r)
-	
+class model_reader():
 	def sort_by(self, z):
 		"""
 		Assume z = z(self.r), and sort all arrays in order of increasing z.
@@ -39,6 +26,20 @@ class read_model_file():
 				np.shape(val) == np.shape(self.r)
 				):
 				setattr(self, attr, val[argsort])
+
+class read_model_file(model_reader):
+	def __init__(self, filename):
+		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
+		
+		self.R_sun = 700e8 #cm
+		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
+		self.r = r*self.R_sun
+		
+		R = self.P/(self.rho*self.T)
+		CP = R/(1-1/self.gamma)
+		self.CV = CP-R
+		
+		self.sort_by(r)
 
 class solar_model():
 	def __init__(self, filename):
