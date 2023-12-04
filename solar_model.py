@@ -38,25 +38,26 @@ class solar_model():
 	def __init__(self, filename):
 		d = read_model_file(filename)
 		
-		z = d.R_sun - d.r
+		d.z = d.R_sun - d.r
 		
 		R = d.P/(d.rho*d.T)
 		CP = R/(1-1/d.gamma)
 		CV = CP-R
-		entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
+		d.entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
 		
-		H = np.gradient(np.log(d.rho), z)
-		N2 = - np.gradient(entropy, z)
-		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
-		g = d.G*m/d.r**2
+		d.H = np.gradient(np.log(d.rho), d.z)
+		d.N2 = - np.gradient(d.entropy, d.z)
+		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
+		d.g = np.where(d.m != 0, d.G*d.m/d.r**2, 0)
 		
-		self.c = self.make_spline(z, d.c)
-		self.H = self.make_spline(z, H)
-		self.N2 = self.make_spline(z, N2)
-		self.g = self.make_spline(z, g)
+		d.sort_by(d.z)
+		self.c = self.make_spline(d.z, d.c)
+		self.H = self.make_spline(d.z, d.H)
+		self.N2 = self.make_spline(d.z, d.N2)
+		self.g = self.make_spline(d.z, d.g)
 		
-		self.z_max = max(z)
-		self.z_min = min(z)
+		self.z_max = max(d.z)
+		self.z_min = min(d.z)
 	
 	def make_spline(self, x, y):
 		"""
