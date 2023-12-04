@@ -33,10 +33,10 @@ class solar_model():
 		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		g = d.G*m/d.r**2
 		
-		self.c = make_spline(z, d.c)
-		self.H = make_spline(z, H)
-		self.N2 = make_spline(z, N2)
-		self.g = make_spline(z, g)
+		self.c = self.make_spline(z, d.c)
+		self.H = self.make_spline(z, H)
+		self.N2 = self.make_spline(z, N2)
+		self.g = self.make_spline(z, g)
 		
 		self.z_max = max(z)
 		self.z_min = min(z)
