@@ -45,5 +45,5 @@ class solar_model():
 		"""
 		Wrapper around scipy.interpolate.UnivariateSpline
 		"""
-		assert np.all(z == np.sort(z))
+		assert np.all(x == np.sort(x))
 		return scipy.interpolate.UnivariateSpline(x, y, check_finite=True, ext='raise')
