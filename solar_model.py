@@ -28,6 +28,11 @@ class model_reader():
 				setattr(self, attr, val[argsort])
 
 class read_limited_model(model_reader):
+	"""
+	Read limited set of variables available at <https://users-phys.au.dk/~jcd/solar_models/>.
+	
+	E.g. filename `solar_model_S_cptrho.l5bi.d.15c`, downloaded from <https://users-phys.au.dk/~jcd/solar_models/> on 21 July 2020, 2:59 PM IST.
+	"""
 	def __init__(self, filename):
 		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
 		
