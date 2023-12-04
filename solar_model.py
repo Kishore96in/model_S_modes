@@ -65,3 +65,25 @@ class solar_model():
 		"""
 		assert np.all(x == np.sort(x))
 		return scipy.interpolate.UnivariateSpline(x, y, check_finite=True, ext='raise')
+
+def plot(model, var):
+	z = np.linspace(model.z_min, model.z_max, 100)
+	
+	fig,ax = plt.subplots()
+	ax.plot(z, getattr(model, var)(z))
+	ax.set_xlim(min(z), max(z))
+	ax.set_xlabel("z")
+	ax.set_ylabel(var)
+	fig.tight_layout()
+
+if __name__ == "__main__":
+	import matplotlib.pyplot as plt
+	
+	model = solar_model("solar_model_S_cptrho.l5bi.d.15c")
+	
+	plot(model, 'c')
+	plot(model, 'H')
+	plot(model, 'N2')
+	plot(model, 'g')
+	
+	plt.show()
