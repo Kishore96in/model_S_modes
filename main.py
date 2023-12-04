@@ -43,7 +43,7 @@ def rhs(z, y, p, k, model):
 	
 	return dydz
 
-def bc(y_bot, y_top, p, k, model):
+def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 	"""
 	Equations A20 and A21 of [BirKosDuv04].
 	
@@ -53,16 +53,18 @@ def bc(y_bot, y_top, p, k, model):
 		model: instance of solar_model
 	"""
 	
-	y1,y2 = y
+	y1_bot, y2_bot = y_bot
+	y1_top, y2_top = y_top
+	
 	assert len(p) == 1
 	omega = p[0]
 	
-	c = model.c(z)
-	g = model.g(z)
+	c_top = model.c(z_top)
+	g_top = model.g(z_top)
 	
 	return np.array([
-		y2,
-		omega*y1 + (g/c)*y2,
+		y2_bot,
+		omega*y1_top + (g_top/c_top)*y2_top,
 		*np.zeros_like(p),
 		])
 
