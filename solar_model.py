@@ -12,20 +12,21 @@ import scipy.interpolate
 class read_model_file():
 	def __init__(self, filename):
 		self.r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
+		
+		self.R_sun = 700e8 #cm
 
 class solar_model():
 	def __init__(self, filename):
 		d = read_model_file(filename)
 		
-		R_sun = 700e8 #cm
-		z = (1 - d.r)*R_sun
+		z = (1 - d.r)*d.R_sun
 		
 		R = d.P/(d.rho*d.T)
 		CP = R/(1-1/d.gamma)
 		CV = CP-R
 		entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
 		
-		r = d.r*R_sun
+		r = d.r*d.R_sun
 		H = np.gradient(np.log(d.rho), z)
 		N2 = - np.gradient(entropy, z)
 		m = scipy.integrate.cumulative_trapezoid(4*np.pi*r**2*d.rho, r)
