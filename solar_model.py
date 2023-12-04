@@ -116,8 +116,11 @@ class read_extensive_model(model_reader):
 		return glob, np.array(var, dtype=float)
 
 class solar_model():
-	def __init__(self, filename):
-		d = read_limited_model(filename)
+	"""
+	Read a solar model and calculate the quantities that appear in the linearized modal equations.
+	"""
+	def __init__(self, filename, reader):
+		d = reader(filename)
 		
 		d.z = d.R_sun - d.r
 		
@@ -167,7 +170,7 @@ def plot(model, var, logy=False):
 if __name__ == "__main__":
 	import matplotlib.pyplot as plt
 	
-	model = solar_model("solar_model_S_cptrho.l5bi.d.15c")
+	model = solar_model("solar_model_S_cptrho.l5bi.d.15c", reader=read_limited_model)
 	
 	plot(model, 'c', logy=True)
 	plot(model, 'H', logy=True)
