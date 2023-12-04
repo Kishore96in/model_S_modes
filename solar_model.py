@@ -17,6 +17,10 @@ class read_model_file():
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		self.r = r*self.R_sun
 		
+		R = self.P/(self.rho*self.T)
+		CP = R/(1-1/self.gamma)
+		self.CV = CP-R
+		
 		self.sort_by(r)
 	
 	def sort_by(self, z):
@@ -40,14 +44,13 @@ class solar_model():
 		
 		d.z = d.R_sun - d.r
 		
-		R = d.P/(d.rho*d.T)
-		CP = R/(1-1/d.gamma)
-		CV = CP-R
-		d.entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
+		d.grad_lnT = np.gradient(np.log(d.T), d.z)
+		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
+		d.grad_entropy = d.CV*d.grad_lnT - (d.P/(d.rho*d.T))*d.grad_lnrho
+		d.N2 = - d.grad_entropy
 		
 		d.H = 1/np.gradient(np.log(d.rho), d.z)
 		assert np.all(d.H > 0)
-		d.N2 = - np.gradient(d.entropy, d.z)
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		assert np.all(d.m >= 0)
 		d.g = np.where(d.m != 0, d.G*d.m/d.r**2, 0)
