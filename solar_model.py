@@ -30,7 +30,7 @@ class solar_model():
 		
 		H = np.gradient(np.log(d.rho), z)
 		N2 = - np.gradient(entropy, z)
-		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r)
+		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		g = d.G*m/d.r**2
 		
 		self.c = make_spline(z, d.c)
