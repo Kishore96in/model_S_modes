@@ -73,10 +73,10 @@ class read_extensive_model(model_reader):
 	def __init__(self, filename):
 		glob, var = self.read_extensive_solar_model(filename)
 		
-		for k in gnames.keys():
-			setattr(self, k, glob[gnames[k]])
-		for k in vnames.keys():
-			setattr(self, k, var[:,vnames[k]])
+		for k in self.gnames.keys():
+			setattr(self, k, glob[self.gnames[k]])
+		for k in self.vnames.keys():
+			setattr(self, k, var[:,self.vnames[k]])
 		
 		self.r = self.rbyR * self.R_sun
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
