@@ -17,6 +17,7 @@ class solar_model():
 	def __init__(self, filename):
 		d = read_model_file(filename)
 		
+		R_sun = 700e8 #cm
 		z = (1 - d.r)*R_sun
 		
 		R = d.P/(d.rho*d.T)
@@ -24,10 +25,11 @@ class solar_model():
 		CV = CP-R
 		entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
 		
+		r = d.r*R_sun
 		H = np.gradient(np.log(d.rho), z)
 		N2 = - np.gradient(entropy, z)
-		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r)
-		g = G*m/d.r**2
+		m = scipy.integrate.cumulative_trapezoid(4*np.pi*r**2*d.rho, r)
+		g = G*m/r**2
 		
 		self.c = make_spline(z, d.c)
 		self.H = make_spline(z, H)
