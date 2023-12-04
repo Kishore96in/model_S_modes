@@ -11,26 +11,26 @@ import scipy.interpolate
 
 class read_model_file():
 	def __init__(self, filename):
-		self.r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
+		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
 		
 		self.R_sun = 700e8 #cm
+		self.r = r*self.R_sun
 
 class solar_model():
 	def __init__(self, filename):
 		d = read_model_file(filename)
 		
-		z = (1 - d.r)*d.R_sun
+		z = d.R_sun - d.r
 		
 		R = d.P/(d.rho*d.T)
 		CP = R/(1-1/d.gamma)
 		CV = CP-R
 		entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
 		
-		r = d.r*d.R_sun
 		H = np.gradient(np.log(d.rho), z)
 		N2 = - np.gradient(entropy, z)
-		m = scipy.integrate.cumulative_trapezoid(4*np.pi*r**2*d.rho, r)
-		g = G*m/r**2
+		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r)
+		g = G*m/d.r**2
 		
 		self.c = make_spline(z, d.c)
 		self.H = make_spline(z, H)
