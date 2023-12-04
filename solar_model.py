@@ -81,6 +81,8 @@ def plot(model, var, logy=False):
 	ax.set_xlabel("z")
 	ax.set_ylabel(var)
 	fig.tight_layout()
+	
+	return fig, ax
 
 if __name__ == "__main__":
 	import matplotlib.pyplot as plt
@@ -89,7 +91,9 @@ if __name__ == "__main__":
 	
 	plot(model, 'c', logy=True)
 	plot(model, 'H', logy=True)
-	plot(model, 'N2')
 	plot(model, 'g', logy=True)
+	
+	_, ax = plot(model, 'N2')
+	ax.axhline(0, ls=':', c='k')
 	
 	plt.show()
