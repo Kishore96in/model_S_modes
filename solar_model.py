@@ -125,17 +125,17 @@ class solar_model():
 	def __init__(self, filename, reader):
 		d = reader(filename)
 		
-		d.z = d.R_sun - d.r
+		d.z = d.r - d.R_sun
 		
 		d.grad_lnT = np.gradient(np.log(d.T), d.z)
 		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
 		d.grad_entropy = d.CV*d.grad_lnT - (d.P/(d.rho*d.T))*d.grad_lnrho
-		d.N2 = - d.grad_entropy
+		d.N2 = d.grad_entropy
 		
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		assert np.all(d.m >= 0)
-		d.g = np.where(d.m != 0, d.G*d.m/d.r**2, 0)
-		d.H = np.gradient(np.log(d.rho), d.z)/2 + np.gradient(np.log(d.c), d.z)/2 + d.g/d.c**2
+		d.g = np.where(d.m != 0, - d.G*d.m/d.r**2, 0)
+		d.H = 1/( - np.gradient(np.log(d.rho), d.z)/2 - np.gradient(np.log(d.c), d.z)/2 - d.g/d.c**2 )
 		assert np.all(d.H > 0)
 		
 		d.sort_by(d.z)
