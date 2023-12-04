@@ -49,6 +49,7 @@ class solar_model():
 		assert np.all(d.H > 0)
 		d.N2 = - np.gradient(d.entropy, d.z)
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
+		assert np.all(d.m >= 0)
 		d.g = np.where(d.m != 0, d.G*d.m/d.r**2, 0)
 		
 		d.sort_by(d.z)
