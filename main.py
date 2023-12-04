@@ -4,7 +4,10 @@ References:
 """
 
 import numpy as np
+import scipy.integrate
+
 from solar_model import solar_model
+from solar_model import read_extensive_model_MmKS as reader
 
 def rhs(z, y, p, k, model):
 	"""
