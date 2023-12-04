@@ -1,0 +1,2 @@
+Compute the eigenfunctions of model S to check if it is really true that one does not get a p_0 mode.
+Follow appendix A of [Birch, Kosovichev, Duvall 2004 - Sensitivity of Acoustic Wave Travel Times to Sound-Speed Perturbations in the Solar Interior], and check whether one indeed gets the solid lines shown in figure 3 of [Schunker, Cameron, Gizon, Moradi 2011 - Constructing and Characterising Solar Structure Models for Computational Helioseismology].
