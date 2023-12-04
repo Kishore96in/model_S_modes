@@ -25,9 +25,11 @@ class read_model_file():
 	
 	def sort_by(self, z):
 		"""
-		Assume z = z(r), and sort all arrays in order of increasing z.
+		Assume z = z(self.r), and sort all arrays in order of increasing z.
 		"""
-		assert np.shape(z) == np.shape(self.r)
+		if not (np.shape(z) == np.shape(self.r)):
+			raise ValueError(f"z (shape: {np.shape(z)}) must be of the same shape as r (shape: {np.shape(r)}).")
+		
 		argsort = np.argsort(z)
 		
 		for attr in self.__dict__.keys():
