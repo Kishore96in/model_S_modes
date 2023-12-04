@@ -14,6 +14,7 @@ class read_model_file():
 		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
 		
 		self.R_sun = 700e8 #cm
+		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		self.r = r*self.R_sun
 
 class solar_model():
@@ -30,7 +31,7 @@ class solar_model():
 		H = np.gradient(np.log(d.rho), z)
 		N2 = - np.gradient(entropy, z)
 		m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r)
-		g = G*m/d.r**2
+		g = d.G*m/d.r**2
 		
 		self.c = make_spline(z, d.c)
 		self.H = make_spline(z, H)
