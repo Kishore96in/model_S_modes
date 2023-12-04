@@ -40,6 +40,7 @@ class read_limited_model(model_reader):
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		self.r = r*self.R_sun
 		
+		#NOTE: these are only correct for an ideal gas.
 		R = self.P/(self.rho*self.T)
 		CP = R/(1-1/self.gamma)
 		self.CV = CP-R
