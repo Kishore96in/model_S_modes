@@ -68,3 +68,33 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		*np.zeros_like(p),
 		])
 
+if __name__ == "__main__":
+	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
+	
+	z_bot = -25
+	z_top = 0.2
+	z_guess = np.linspace(z_bot, z_top, 10)
+	
+	#Initial guess for the eigenfunction
+	n = 0 #Number of radial nodes
+	wave = np.sin((n+1)*np.pi*(z_guess-z_bot)/(z_top-z_bot))
+	y_guess = np.array([wave, wave], dtype=complex)
+	
+	#Initial guess for the parameters
+	p_guess = np.array([1e-2])
+	
+	k_list = np.linspace(0,1.3,10)
+	solutions = {}
+	for k in k_list:
+		RHS = lambda z, y, p: rhs(z, y, p, k=k, model=model)
+		BC = lambda y_bot, y_top, p: bc(y_bot, y_top, p, k=k, model=model, z_bot=z_bot, z_top=z_top)
+		
+		sol = scipy.integrate.solve_bvp(
+			RHS,
+			BC,
+			p=p_guess,
+			x=z_guess,
+			y=y_guess,
+			)
+		
+		solutions[k] = {'sol': sol}
