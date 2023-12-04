@@ -29,13 +29,15 @@ def rhs(z, y, p, k, model):
 	H = model.H(z)
 	N2 = model.N2(z)
 	
+	Gamma_tilde = 1 #omega/(omega + 1j*Gamma), where Gamma specifies damping of the modes.
+	
 	dydz[0] = (-1/c)*(
 		- (c/H)*y1
-		+ (1/omega)*(omega**2/Gamma - N2)*y2
+		+ (1/omega)*(omega**2/Gamma_tilde - N2)*y2
 		)
 	
 	dydz[1] = (-1/c)*(
-		- (1/omega)*(omega**2 - Gamma*c**2*k**2)*y1
+		- (1/omega)*(omega**2 - Gamma_tilde*c**2*k**2)*y1
 		+ (c/H)*y2
 		)
 	
