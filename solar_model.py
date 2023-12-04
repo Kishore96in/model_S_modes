@@ -16,6 +16,21 @@ class read_model_file():
 		self.R_sun = 700e8 #cm
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		self.r = r*self.R_sun
+	
+	def sort_by(self, z):
+		"""
+		Assume z = z(r), and sort all arrays in order of increasing z.
+		"""
+		assert np.shape(z) == np.shape(self.r)
+		argsort = np.argsort(z)
+		
+		for attr in self.__dict__.keys():
+			val = getattr(self, attr)
+			if (
+				isinstance(val, np.ndarray) and
+				np.shape(val) == np.shape(self.r)
+				):
+				setattr(self, attr, val[argsort])
 
 class solar_model():
 	def __init__(self, filename):
