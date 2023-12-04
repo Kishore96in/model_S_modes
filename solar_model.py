@@ -130,6 +130,28 @@ class read_extensive_model(model_reader):
 		
 		return glob, np.array(var, dtype=float)
 
+class read_extensive_model_MmKS(read_extensive_model):
+	"""
+	Just like read_extensive_model, but changes the length unit to Mm and the mass unit to kilogram (from CGS units).
+	"""
+	gunits = {
+		#Multiplicative unit conversion factors for the global variables
+		'R_sun': 1e-8, #Mm
+		}
+	
+	vunits = {
+		#Multiplicative unit conversion factors for the mesh variables
+		'r': 1e-8, #Mm
+		'T': 1, #K
+		'P': 1e-3 * 1e-8**(-1), #kg Mm^{-1} s^{-2}
+		'rho': 1e-3 * 1e-8**(-3), #kg Mm^{-3}
+		'Gamma_1': 1, #dimensionless
+		'delta': 1, #dimensionless
+		'CP': 1e-8**2, #Mm^{2} K^{-1} s^{-2}
+		}
+		
+	G = 6.67408e-11 * 1e-6**3 #Mm^3 kg^{-1} s^{-2}
+
 class solar_model():
 	"""
 	Read a solar model and calculate the quantities that appear in the linearized modal equations.
