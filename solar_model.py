@@ -46,6 +46,7 @@ class read_limited_model(model_reader):
 		R = self.P/(self.rho*self.T)
 		CP = R/(1-1/self.gamma)
 		self.CV = CP-R
+		self.CP = CP
 		
 		self.sort_by(self.r)
 
