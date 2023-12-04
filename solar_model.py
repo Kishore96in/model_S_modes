@@ -82,6 +82,8 @@ class read_extensive_model(model_reader):
 		
 		self.CV = self.CP**2/( self.P*self.Gamma_1*self.delta**2/(self.rho*self.T) + self.CP )
 		
+		self.c = np.sqrt(self.Gamma_1*self.P/self.rho) #adiabatic sound speed
+		
 		self.sort_by(self.r)
 	
 	def read_extensive_solar_model(self, filename):
