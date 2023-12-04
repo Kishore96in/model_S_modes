@@ -39,7 +39,7 @@ class read_limited_model(model_reader):
 		CP = R/(1-1/self.gamma)
 		self.CV = CP-R
 		
-		self.sort_by(r)
+		self.sort_by(self.r)
 
 class read_extensive_model(model_reader):
 	"""
