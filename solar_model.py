@@ -16,6 +16,8 @@ class read_model_file():
 		self.R_sun = 700e8 #cm
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		self.r = r*self.R_sun
+		
+		self.sort_by(r)
 	
 	def sort_by(self, z):
 		"""
