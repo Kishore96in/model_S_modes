@@ -61,7 +61,7 @@ class read_extensive_model(model_reader):
 	
 	vnames = {
 		#Indices of the model variables at each mesh point
-		'rbyR': 0,
+		'r': 0,
 		'T': 2,
 		'P': 3,
 		'rho': 4,
@@ -78,7 +78,6 @@ class read_extensive_model(model_reader):
 		for k in self.vnames.keys():
 			setattr(self, k, var[:,self.vnames[k]])
 		
-		self.r = self.rbyR * self.R_sun
 		self.G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
 		
 		self.CV = self.CP**2/( self.P*self.Gamma_1*self.delta**2/(self.rho*self.T) + self.CP )
