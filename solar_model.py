@@ -36,6 +36,9 @@ class solar_model():
 		self.H = make_spline(z, H)
 		self.N2 = make_spline(z, N2)
 		self.g = make_spline(z, g)
+		
+		self.z_max = np.max(z)
+		self.z_min = np.min(z)
 	
 	def make_spline(self, x, y):
 		"""
