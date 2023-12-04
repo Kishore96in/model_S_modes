@@ -1,5 +1,5 @@
 """
-Read data from Solar Model S (limited set of variables, filename `solar_model_S_cptrho.l5bi.d.15c`, downloaded from <https://users-phys.au.dk/~jcd/solar_models/> on 21 July 2020, 2:59 PM IST).
+Read data from Solar Model S.
 
 References:
 	Christensen-Dalsgaard (1996) - The Current State of Solar Modeling
