@@ -85,7 +85,7 @@ class read_extensive_model(model_reader):
 		
 		self.sort_by(self.r)
 	
-	def read_extensive_solar_model(filename):
+	def read_extensive_solar_model(self, filename):
 		"""
 		Format: specified at https://users-phys.au.dk/~jcd/solar_models/file-format.pdf
 			Record 1: Name of model (as a character string)
