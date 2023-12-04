@@ -154,11 +154,15 @@ class solar_model():
 		assert np.all(x == np.sort(x))
 		return scipy.interpolate.InterpolatedUnivariateSpline(x, y, check_finite=True, ext='raise')
 
-def plot(model, var, logy=False):
+def plot(model, var, logy=False, absolute=False):
 	z = np.linspace(model.z_min, model.z_max, 1000)
+	data = getattr(model, var)(z)
+	
+	if absolute:
+		data = abs(data)
 	
 	fig,ax = plt.subplots()
-	ax.plot(z, getattr(model, var)(z))
+	ax.plot(z, data)
 	
 	if logy:
 		ax.set_yscale('log')
@@ -177,7 +181,7 @@ if __name__ == "__main__":
 	
 	plot(model, 'c', logy=True)
 	plot(model, 'H', logy=True)
-	plot(model, 'g', logy=True)
+	plot(model, 'g', logy=True, absolute=True)
 	
 	_, ax = plot(model, 'N2')
 	ax.axhline(0, ls=':', c='k')
