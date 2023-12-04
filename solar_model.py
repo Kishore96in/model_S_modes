@@ -55,7 +55,6 @@ class read_extensive_model(model_reader):
 	"""
 	gnames = {
 		#Indices of the global parameters in the file
-		'M_sun': 0,
 		'R_sun': 1,
 		}
 	
