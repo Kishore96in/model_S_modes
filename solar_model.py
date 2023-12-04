@@ -45,7 +45,7 @@ class solar_model():
 		CV = CP-R
 		d.entropy = CV*np.log(d.T*d.rho**(1-d.gamma)) #Note that this formula is correct even if CP, CV, and R vary.
 		
-		d.H = np.gradient(np.log(d.rho), d.z)
+		d.H = 1/np.gradient(np.log(d.rho), d.z)
 		d.N2 = - np.gradient(d.entropy, d.z)
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		d.g = np.where(d.m != 0, d.G*d.m/d.r**2, 0)
