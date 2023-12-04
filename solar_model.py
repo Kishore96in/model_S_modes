@@ -27,7 +27,7 @@ class model_reader():
 				):
 				setattr(self, attr, val[argsort])
 
-class read_model_file(model_reader):
+class read_limited_model(model_reader):
 	def __init__(self, filename):
 		r, self.c, self.rho, self.P, self.gamma, self.T = np.loadtxt(filename, unpack=True)
 		
@@ -43,7 +43,7 @@ class read_model_file(model_reader):
 
 class solar_model():
 	def __init__(self, filename):
-		d = read_model_file(filename)
+		d = read_limited_model(filename)
 		
 		d.z = d.R_sun - d.r
 		
