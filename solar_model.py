@@ -153,7 +153,7 @@ class solar_model():
 		Wrapper around scipy.interpolate.UnivariateSpline
 		"""
 		assert np.all(x == np.sort(x))
-		return scipy.interpolate.UnivariateSpline(x, y, check_finite=True, ext='raise')
+		return scipy.interpolate.InterpolatedUnivariateSpline(x, y, check_finite=True, ext='raise')
 
 def plot(model, var, logy=False):
 	z = np.linspace(model.z_min, model.z_max, 100)
