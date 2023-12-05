@@ -18,10 +18,13 @@ def rhs(z, y, p, k, model):
 		z, y, p: see scipy.integrate.solve_bvp
 		k: horizontal wavenumber
 		model: instance of solar_model
+	
+	Implementation note:
+		We would need three boundary conditions if we were to solve for y_1, y_2, and omega. The first two BCs are determined by the problem itself, but is it a priori unclear what the third boundary condition should be. To circumvent this, we add a variable y_3, which is a function such that \int y_3 d z = \int y_2^2/c d z. This allows us to impose two more BCs (y_3(z_bot) = 0 and y_3(z_top) = 1). We thus have 4 BCs for 4 variables (y_1, y_2, y_3, and omega). This trick is from <https://stackoverflow.com/questions/53053866/how-do-you-feed-scipys-bvp-only-the-bcs-you-have>.
 	"""
 	dydz = np.zeros_like(y, dtype=complex)
 	
-	y1, y2 = y
+	y1, y2, y3 = y
 	assert len(p) == 1
 	omega = p[0]
 	
@@ -41,6 +44,8 @@ def rhs(z, y, p, k, model):
 		+ (c/H)*y2
 		)
 	
+	dydz[2] = y2**2/c
+	
 	return dydz
 
 def bc(y_bot, y_top, p, k, model, z_bot, z_top):
@@ -52,9 +57,8 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		k: horizontal wavenumber
 		model: instance of solar_model
 	"""
-	
-	y1_bot, y2_bot = y_bot
-	y1_top, y2_top = y_top
+	y1_bot, y2_bot, y3_bot = y_bot
+	y1_top, y2_top, y3_top = y_top
 	
 	assert len(p) == 1
 	omega = p[0]
@@ -65,7 +69,8 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 	return np.array([
 		y2_bot,
 		omega*y1_top + (g_top/c_top)*y2_top,
-		*np.zeros_like(p),
+		y3_bot,
+		y3_top - 1,
 		])
 
 if __name__ == "__main__":
@@ -78,7 +83,7 @@ if __name__ == "__main__":
 	#Initial guess for the eigenfunction
 	n = 0 #Number of radial nodes
 	wave = np.sin((n+1)*np.pi*(z_guess-z_bot)/(z_top-z_bot))
-	y_guess = np.array([wave, wave], dtype=complex)
+	y_guess = np.array([wave, wave, np.linspace(0,1,len(z_guess))], dtype=complex)
 	
 	#Initial guess for the parameters
 	p_guess = np.array([1e-2])
