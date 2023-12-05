@@ -165,6 +165,6 @@ if __name__ == "__main__":
 	ax.set_xlim(z_bot, z_top)
 	ax.axhline(0, ls=':', c='k')
 	ax.set_xlabel("$z$")
-	ax.set_ylabel(r"$\mathrm{re}(u_z \sqrt{\rho_0})$")
+	ax.set_ylabel(r"$\mathrm{re}\left( u_z \sqrt{\rho_0} \right)$")
 	
 	plt.show()
