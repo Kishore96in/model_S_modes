@@ -45,7 +45,7 @@ def rhs(z, y, p, k, model):
 		+ (c/H)*y2
 		)
 	
-	dydz[2] = y2**2/c
+	dydz[2] = np.abs(y2)**2/c
 	
 	return dydz
 
@@ -71,7 +71,7 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		y2_bot,
 		omega*y1_top + (g_top/c_top)*y2_top,
 		y3_bot,
-		y3_top - 1,
+		y3_top - np.sign(np.real(omega)),
 		])
 
 if __name__ == "__main__":
