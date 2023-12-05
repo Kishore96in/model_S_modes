@@ -104,6 +104,23 @@ def make_guess_fmode(z_guess):
 	y_guess[1,-2] = 1
 	return y_guess
 
+def count_zero_crossings(arr):
+	"""
+	Count the number of zero crossings in the array arr. The first and last points are ignored even if the values there are zero.
+	
+	Arguments:
+		arr: 1D numpy array
+	"""
+	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr))))[1:])
+	
+	if int(n) != n:
+		raise RuntimeError("Number of zero crossings is not an integer!")
+	
+	if n > 0.1*len(arr):
+		warnings.warn("Number of zero crossings may be affected by Nyquist errors. Try increasing the number of grid points.", RuntimeWarning)
+	
+	return int(n)
+
 if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
