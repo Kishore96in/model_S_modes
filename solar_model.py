@@ -211,7 +211,9 @@ def plot(model, var, logy=False, absolute=False):
 if __name__ == "__main__":
 	import matplotlib.pyplot as plt
 	
-	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=read_extensive_model)
+	# model = solar_model("solar_model_S_cptrho.l5bi.d.15c", reader=read_limited_model)
+	# model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=read_extensive_model)
+	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=read_extensive_model_MmKS)
 	
 	plot(model, 'c', logy=True)
 	plot(model, 'H', logy=True)
