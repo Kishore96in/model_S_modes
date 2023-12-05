@@ -99,7 +99,7 @@ def make_guess_fmode(z_guess):
 	if len(z_guess) < 3:
 		raise ValueError("Length of z_guess should be > 3")
 	
-	y_guess = np.zeros((3,len(z_guess)))
+	y_guess = np.zeros((3,len(z_guess)), dtype=complex)
 	y_guess[2] = np.linspace(0,1,len(z_guess))
 	y_guess[1,-2] = 1
 	return y_guess
