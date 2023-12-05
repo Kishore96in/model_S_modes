@@ -5,6 +5,7 @@ References:
 
 import numpy as np
 import scipy.integrate
+import warnings
 
 from solar_model import solar_model
 from solar_model import read_extensive_model_MmKS as reader
@@ -103,3 +104,6 @@ if __name__ == "__main__":
 			)
 		
 		solutions[k] = {'sol': sol}
+		if not sol.success:
+			warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
+		
