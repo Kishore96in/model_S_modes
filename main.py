@@ -74,6 +74,36 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		y3_top - np.sign(np.real(omega)),
 		])
 
+def make_guess_pmode(z_guess, n):
+	"""
+	Generate initial guess to encourage solve_bvp to find the p mode of order n.
+	
+	n: number of radial nodes for the guess (excluding endpoints)
+	"""
+	
+	z_bot = np.min(z_guess)
+	z_top = np.max(z_guess)
+	
+	wave = np.sin((n+1)*np.pi*(z_guess-z_bot)/(z_top-z_bot))
+	return np.array([
+		np.zeros_like(z_guess),
+		wave,
+		np.linspace(0,1,len(z_guess))],
+		dtype=complex,
+		)
+
+def make_guess_fmode(z_guess):
+	"""
+	Generate initial guess to encourage solve_bvp to find the f mode.
+	"""
+	if len(z_guess) < 3:
+		raise ValueError("Length of z_guess should be > 3")
+	
+	y_guess = np.zeros((3,len(z_guess)))
+	y_guess[2] = np.linspace(0,1,len(z_guess))
+	y_guess[1,-2] = 1
+	return y_guess
+
 if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
@@ -81,13 +111,11 @@ if __name__ == "__main__":
 	z_top = 0.2
 	z_guess = np.linspace(z_bot, z_top, 10)
 	
-	#Initial guess for the eigenfunction
-	n = 0 #Number of radial nodes
-	wave = np.sin((n+1)*np.pi*(z_guess-z_bot)/(z_top-z_bot))
-	y_guess = np.array([wave, wave, np.linspace(0,1,len(z_guess))], dtype=complex)
+	#Initial guesses
+	y_guess = make_guess_pmode(z_guess, n=0)
+	# y_guess = make_guess_fmode(z_guess)
 	
-	#Initial guess for the parameters
-	p_guess = np.array([1e-2])
+	p_guess = np.array([1e-3])
 	
 	k_list = np.linspace(0,1.3,10)
 	solutions = {}
