@@ -103,7 +103,7 @@ if __name__ == "__main__":
 			y=y_guess,
 			)
 		
-		solutions[k] = {'sol': sol}
 		if not sol.success:
 			warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
 		
+		solutions[k] = sol
