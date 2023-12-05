@@ -108,7 +108,7 @@ if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
 	z_bot = -25
-	z_top = 0.2
+	z_top = 0.45
 	z_guess = np.linspace(z_bot, z_top, 10)
 	
 	#Initial guesses
