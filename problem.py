@@ -156,15 +156,20 @@ if __name__ == "__main__":
 	
 	z = np.linspace(z_bot, z_top, int(1e4))
 	ruz = sol.sol(z)[1]/np.sqrt(model.c(z))
+	ipbr = sol.sol(z)[0]*np.sqrt(model.c(z))
 	
 	print(rf"Found $\omega$ = {np.real_if_close(sol.p[0]) :.2e}")
 	print(f"Number of zero crossings of re(u√ρ₀) in the interior of the domain: {count_zero_crossings(np.real(ruz))}")
 	
 	fig,ax = plt.subplots()
-	ax.plot(z, np.real(ruz))
+	ax.plot(z, np.real(ruz), label=r"$\mathrm{re}\left( u_z \sqrt{\rho_0} \right)$")
+	ax.plot(z, np.imag(ruz), label=r"$\mathrm{im}\left( u_z \sqrt{\rho_0} \right)$")
+	ax.plot(z, np.real(ipbr), label=r"$\mathrm{re}\left( ip/\sqrt{\rho_0} \right)$")
+	ax.plot(z, np.imag(ipbr), label=r"$\mathrm{im}\left( ip/\sqrt{\rho_0} \right)$")
 	ax.set_xlim(z_bot, z_top)
 	ax.axhline(0, ls=':', c='k')
 	ax.set_xlabel("$z$")
-	ax.set_ylabel(r"$\mathrm{re}\left( u_z \sqrt{\rho_0} \right)$")
+	
+	ax.legend()
 	
 	plt.show()
