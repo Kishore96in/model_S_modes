@@ -6,6 +6,7 @@ References:
 import numpy as np
 import scipy.integrate
 import warnings
+import matplotlib.pyplot as plt
 
 from solar_model import solar_model
 from solar_model import read_extensive_model_MmKS as reader
@@ -124,31 +125,46 @@ def count_zero_crossings(arr):
 if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
-	z_bot = -25
+	z_bot = -200
 	z_top = 0.45
-	z_guess = np.linspace(z_bot, z_top, 10)
+	k = 1
+	omega_guess = 1e-2
 	
-	#Initial guesses
-	y_guess = make_guess_pmode(z_guess, n=0)
-	# y_guess = make_guess_fmode(z_guess)
+	z_guess = np.linspace(z_bot, z_top, 400)
 	
-	p_guess = np.array([1e-3])
 	
-	k_list = np.linspace(0,1.3,10)
-	solutions = {}
-	for k in k_list:
-		RHS = lambda z, y, p: rhs(z, y, p, k=k, model=model)
-		BC = lambda y_bot, y_top, p: bc(y_bot, y_top, p, k=k, model=model, z_bot=z_bot, z_top=z_top)
+	y_guess, _ = make_guess_pmode(z_guess, k=k, n=0, model=model)
+	
+	p_guess = np.array([omega_guess])
+	
+	RHS = lambda z, y, p: rhs(z, y, p, k=k, model=model)
+	BC = lambda y_bot, y_top, p: bc(y_bot, y_top, p, k=k, model=model, z_bot=z_bot, z_top=z_top)
+	
+	sol = scipy.integrate.solve_bvp(
+		RHS,
+		BC,
+		p=p_guess,
+		x=z_guess,
+		y=y_guess,
+		# verbose=2,
+		tol = 1e-6,
+		max_nodes=1e6,
+		)
 		
-		sol = scipy.integrate.solve_bvp(
-			RHS,
-			BC,
-			p=p_guess,
-			x=z_guess,
-			y=y_guess,
-			)
-		
-		if not sol.success:
-			warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
-		
-		solutions[k] = sol
+	if not sol.success:
+		warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
+	
+	z = np.linspace(z_bot, z_top, int(1e4))
+	ruz = sol.sol(z)[1]/np.sqrt(model.c(z))
+	
+	print(rf"Found $\omega$ = {np.real_if_close(sol.p[0]) :.2e}")
+	print(f"Number of zero crossings of re(u√ρ₀) in the interior of the domain: {count_zero_crossings(np.real(ruz))}")
+	
+	fig,ax = plt.subplots()
+	ax.plot(z, np.real(ruz))
+	ax.set_xlim(z_bot, z_top)
+	ax.axhline(0, ls=':', c='k')
+	ax.set_xlabel("$z$")
+	ax.set_ylabel(r"$\mathrm{re}(u_z \sqrt{\rho_0})$")
+	
+	plt.show()
