@@ -220,9 +220,11 @@ if __name__ == "__main__":
 	
 	plot(model, 'c', logy=True)
 	plot(model, 'H', logy=True)
-	plot(model, 'g', logy=True, absolute=True)
+	fig, ax = plot(model, 'g', logy=True, absolute=True)
+	ax.set_ylim(1e-4, 1e-2)
 	
 	_, ax = plot(model, 'N2')
 	ax.axhline(0, ls=':', c='k')
+	ax.set_ylim(-5e-5, 5e-5)
 	
 	plt.show()
