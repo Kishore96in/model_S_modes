@@ -49,6 +49,7 @@ class solar_model_from_sim(solar_model):
 			'TTmz': get_av(av, 'TTmz'),
 			'rhomz': get_av(av, 'rhomz'),
 			'ssmz': get_av(av, 'ssmz'),
+			'simpath': sim.path,
 			}
 		
 		with open(savefile, 'wb') as f:
@@ -61,4 +62,9 @@ def get_av(av, key, it=-500):
 	return np.average(getattr(av.xy, key)[it:], axis=0)
 
 if __name__ == "__main__":
-	solar_model_from_sim.save(savefile="background.pickle")
+	import sys
+	
+	simdir = sys.argv[1]
+	savefile = sys.argv[2]
+	
+	solar_model_from_sim.save(simdir=simdir, savefile=savefile)
