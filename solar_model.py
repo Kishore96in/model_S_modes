@@ -164,7 +164,7 @@ class solar_model():
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		assert np.all(d.m >= 0)
 		d.g = np.where(d.m != 0, - d.G*d.m/d.r**2, 0)
-		d.H = 1/( - np.gradient(np.log(d.rho), d.z)/2 - np.gradient(np.log(d.c), d.z)/2 - d.g/d.c**2 )
+		d.H = 1/( - np.gradient(np.log(d.rho), d.z)/2 - np.gradient(np.log(d.c), d.z)/2 + d.g/d.c**2 )
 		assert np.all(d.H > 0)
 		
 		d.grad_lnT = np.gradient(np.log(d.T), d.z)

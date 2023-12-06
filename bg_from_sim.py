@@ -19,7 +19,7 @@ class solar_model_from_sim(solar_model):
 		z = d['z']
 		g = d['gravz']
 		c = np.sqrt(d['cp']*(d['gamma']-1)*d['TTmz'])
-		H = 1/( - np.gradient(np.log(d['rhomz']), z)/2 - np.gradient(np.log(c), z)/2 - g/c**2 )
+		H = 1/( - np.gradient(np.log(d['rhomz']), z)/2 - np.gradient(np.log(c), z)/2 + g/c**2 )
 		
 		grad_entropy = np.gradient(d['ssmz'], z)
 		N2 = - g*grad_entropy
