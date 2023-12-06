@@ -70,7 +70,7 @@ class read_extensive_model(model_reader):
 		'CP': 12,
 		}
 	
-	G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS
+	G = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
 	
 	def __init__(self, filename):
 		glob, var = self.read_extensive_solar_model(filename)
