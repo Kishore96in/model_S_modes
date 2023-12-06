@@ -194,6 +194,9 @@ def plot(model, var, logy=False, absolute=False):
 	
 	if absolute:
 		data = abs(data)
+		ylabel = rf"$\left| \mathrm{{{var}}} \right|$"
+	else:
+		ylabel = var
 	
 	fig,ax = plt.subplots()
 	ax.plot(z, data)
@@ -203,7 +206,7 @@ def plot(model, var, logy=False, absolute=False):
 	
 	ax.set_xlim(min(z), max(z))
 	ax.set_xlabel("z")
-	ax.set_ylabel(var)
+	ax.set_ylabel(ylabel)
 	fig.tight_layout()
 	
 	return fig, ax
