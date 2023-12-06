@@ -55,6 +55,7 @@ def rhs(z, y, p, k, model):
 def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 	"""
 	Equations A20 and A21 of [BirKosDuv04].
+	Top is a free surface (zero Lagrangian pressure perturbation), while the bottom is impenetrable.
 	
 	Arguments:
 		y_bot, y_top, p: see scipy.integrate.solve_bvp
