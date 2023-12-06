@@ -9,13 +9,15 @@ import pickle
 from solar_model import solar_model
 
 class solar_model_from_sim(solar_model):
+	"""
+	Construct a fake solar model from a Pencil simulation that has gravity in the -z direction. z=zcool is considered as the 'surface'. Ideal gas EOS is assumed.
+	"""
 	def __init__(self, filename):
 		with open(filename, 'rb') as f:
 			d = pickle.load(f)
 		
 		z = d['z']
 		g = d['gravz']
-		#NOTE: we assume the simulation uses an ideal gas EOS.
 		c = np.sqrt(d['cp']*(d['gamma']-1)*d['TTmz'])
 		H = 1/( - np.gradient(np.log(d['rhomz']), z)/2 - np.gradient(np.log(c), z)/2 - g/c**2 )
 		
