@@ -2,6 +2,7 @@
 Plot the modes from a simulation of convection
 """
 
+import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate
