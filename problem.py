@@ -133,14 +133,24 @@ def make_guess_fmode(z_guess):
 	y_guess[1,-2] = 1
 	return y_guess
 
-def count_zero_crossings(arr):
+def count_zero_crossings(arr, z_max=None, z=None):
 	"""
 	Count the number of zero crossings in the array arr. The first and last points are ignored even if the values there are zero.
 	
 	Arguments:
 		arr: 1D numpy array
+		z_max: float, optional. Only count zero crossings below this depth
+		z: 1D numpy array. Only required if z_max is not None. Needs to be the same shape as arr; coordinate values at the corresponding indices.
 	"""
-	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr[1:-1])))))
+	if z_max is not None:
+		if z is None:
+			raise ValueError("z must be specified to use z_max")
+		izmax = np.argmin(np.abs(z_max - z))
+		arr = arr[1:izmax]
+	else:
+		arr = arr[1:-1]
+	
+	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr)))))
 	
 	if int(n) != n:
 		raise RuntimeError("Number of zero crossings is not an integer!")
