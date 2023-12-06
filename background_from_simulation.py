@@ -34,9 +34,10 @@ class solar_model_from_sim(solar_model):
 	def save(savefile, simdir="."):
 		import pencil as pc
 		
-		param = pc.read.param(quiet=True)
-		grid = pc.read.grid(quiet=True, trim=True)
-		av = pc.read.aver(plane_list=['xy'], quiet=True)
+		sim = pc.sim.get(path=simdir, quiet=True)
+		param = pc.read.param(quiet=True, datadir=sim.datadir)
+		grid = pc.read.grid(quiet=True, trim=True, datadir=sim.datadir)
+		av = pc.read.aver(plane_list=['xy'], quiet=True, datadir=sim.datadir, simdir=sim.path)
 		
 		ret = {
 			'z': grid.z - param.zcool, #Make sure z=0 corresponds to the 'surface'.
