@@ -15,8 +15,8 @@ if __name__ == "__main__":
 	
 	z_bot = model.z_min
 	z_top = model.z_max
-	L_0 = model.c(0)**2/model.g(0)
-	omega_0 = model.g(0)/model.c(0)
+	L_0 = model.c(0)**2/np.abs(model.g(0))
+	omega_0 = np.abs(model.g(0))/model.c(0)
 	
 	k = 0.1/L_0
 	omega_guess = 0.5*omega_0
