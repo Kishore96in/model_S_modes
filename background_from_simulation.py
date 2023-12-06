@@ -4,6 +4,7 @@ Generate a background model by reading simulation data (horizontal averages)
 """
 
 import numpy as np
+import pickle
 
 from solar_model import solar_model
 
@@ -28,6 +29,27 @@ class solar_model_from_sim(solar_model):
 		
 		self.z_max = max(z)
 		self.z_min = min(z)
+	
+	@staticmethod
+	def save(savefile, simdir="."):
+		import pencil as pc
+		
+		param = pc.read.param(quiet=True)
+		grid = pc.read.grid(quiet=True, trim=True)
+		av = pc.read.aver(plane_list=['xy'], quiet=True)
+		
+		ret = {
+			'z': grid.z - param.zcool, #Make sure z=0 corresponds to the 'surface'.
+			'gravz': param.gravz,
+			'cp': param.cp,
+			'gamma': param.gamma,
+			'TTmz': get_av(av, 'TTmz'),
+			'rhomz': get_av(av, 'rhomz'),
+			'ssmz': get_av(av, 'ssmz'),
+			}
+		
+		with open(savefile, 'wb') as f:
+			pickle.dump(ret, f)
 
 def get_av(av, key, it=-500):
 	"""
@@ -35,26 +57,5 @@ def get_av(av, key, it=-500):
 	"""
 	return np.average(getattr(av.xy, key)[it:], axis=0)
 
-def save(savefile):
-	import pencil as pc
-	import pickle
-	
-	param = pc.read.param(quiet=True)
-	grid = pc.read.grid(quiet=True, trim=True)
-	av = pc.read.aver(plane_list=['xy'], quiet=True)
-	
-	ret = {
-		'z': grid.z - param.zcool, #Make sure z=0 corresponds to the 'surface'.
-		'gravz': param.gravz,
-		'cp': param.cp,
-		'gamma': param.gamma,
-		'TTmz': get_av(av, 'TTmz'),
-		'rhomz': get_av(av, 'rhomz'),
-		'ssmz': get_av(av, 'ssmz'),
-		}
-	
-	with open(savefile, 'wb') as f:
-		pickle.dump(ret, f)
-
 if __name__ == "__main__":
-	save(savefile="background.pickle")
+	solar_model_from_sim.save(savefile="background.pickle")
