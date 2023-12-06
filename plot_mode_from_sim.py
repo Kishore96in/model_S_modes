@@ -43,7 +43,6 @@ if __name__ == "__main__":
 		p=p_guess,
 		x=z_guess,
 		y=y_guess,
-		# verbose=2,
 		tol = 1e-6,
 		max_nodes=1e6,
 		)
