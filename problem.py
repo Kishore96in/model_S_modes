@@ -1,4 +1,6 @@
 """
+Define the system of equations given by [BirKosDuv04] and solve it for a single k, omega.
+
 References:
 	BirKosDuv04: Birch, Kosovichev, Duvall 2004 - Sensitivity of Acoustic Wave Travel Times to Sound-Speed Perturbations in the Solar Interior
 """
