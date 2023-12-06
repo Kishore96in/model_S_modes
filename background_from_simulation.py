@@ -35,7 +35,7 @@ def get_av(av, key, it=-500):
 	"""
 	return np.average(getattr(av.xy, key)[it:], axis=0)
 
-if __name__ == "__main__":
+def save(savefile):
 	import pencil as pc
 	import pickle
 	
@@ -53,5 +53,8 @@ if __name__ == "__main__":
 		'ssmz': get_av(av, 'ssmz'),
 		}
 	
-	with open("background.pickle", 'wb') as f:
+	with open(savefile, 'wb') as f:
 		pickle.dump(ret, f)
+
+if __name__ == "__main__":
+	save(savefile="background.pickle")
