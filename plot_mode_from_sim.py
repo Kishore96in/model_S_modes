@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate
 
-from background_from_simulation import solar_model_from_sim as solar_model
+from bg_from_sim import solar_model_from_sim as solar_model
 from problem import rhs, bc_imp_both as bc, count_zero_crossings
 
 if __name__ == "__main__":
