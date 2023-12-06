@@ -75,6 +75,31 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		y3_top - np.sign(np.real(omega)),
 		])
 
+def bc_imp_both(y_bot, y_top, p, k, model, z_bot, z_top):
+	"""
+	Make both top and bottom boundaries impenetrable.
+	
+	Arguments:
+		y_bot, y_top, p: see scipy.integrate.solve_bvp
+		k: horizontal wavenumber
+		model: instance of solar_model
+	"""
+	y1_bot, y2_bot, y3_bot = y_bot
+	y1_top, y2_top, y3_top = y_top
+	
+	assert len(p) == 1
+	omega = p[0]
+	
+	c_top = model.c(z_top)
+	g_top = model.g(z_top)
+	
+	return np.array([
+		y2_bot,
+		y2_top,
+		y3_bot,
+		y3_top - np.sign(np.real(omega)),
+		])
+
 def make_guess_pmode(z_guess, n):
 	"""
 	Generate initial guess to encourage solve_bvp to find the p mode of order n.
