@@ -137,7 +137,7 @@ def count_zero_crossings(arr):
 	Arguments:
 		arr: 1D numpy array
 	"""
-	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr))))[1:-1])
+	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr[1:-1])))))
 	
 	if int(n) != n:
 		raise RuntimeError("Number of zero crossings is not an integer!")
