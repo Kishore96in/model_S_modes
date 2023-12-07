@@ -213,5 +213,14 @@ if __name__ == "__main__":
 			)
 	
 	if plot:
-		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0)
+		fig,ax = plt.subplots()
+		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
+		l = ax.legend()
+		l.set_title("Nodes")
+		ax.set_xlabel(r"$\widetilde{k}$")
+		ax.set_ylabel(r"$\widetilde{\omega}$")
+		fig.tight_layout()
+		ax.set_xlim(left=0)
+		ax.set_ylim(bottom=0)
+		
 		plt.show()
