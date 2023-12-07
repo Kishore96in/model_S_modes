@@ -77,7 +77,7 @@ if __name__ == "__main__":
 			if success and (np.abs(omega - omega_sol) < d_omega):
 				solutions_this_k.append({'omega': np.real_if_close(omega_sol), 'mode': mode_sol})
 				omega_last = omega_sol
-				n_guess = count_zero_crossings(mode_sol(z), z_max=0, z=z) + 1
+				n_guess = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z) + 1
 		
 		solutions[k] = solutions_this_k
 	
