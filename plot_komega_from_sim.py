@@ -13,7 +13,7 @@ import multiprocessing
 from bg_from_sim import solar_model_from_sim as solar_model
 from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
 
-def find_mode(omega_guess, k, model, z_guess, guesser):
+def find_mode(omega_guess, k, model, z_guess, guesser, rhs, bc):
 	y_guess = guesser(z_guess)
 	p_guess = np.array([omega_guess])
 	
@@ -43,6 +43,8 @@ def get_modes_at_k(
 	omega_min,
 	n_omega,
 	d_omega,
+	rhs,
+	bc,
 	):
 	"""
 	Find the modes at a single value of k.
@@ -54,6 +56,8 @@ def get_modes_at_k(
 		omega_min: float. Minimum value of omega to probe.
 		n_omega: int. Number of omega values to compute for in the range omega_min, omega_max.
 		d_omega: float: Only consider modes which are further apart than this.
+		rhs: function. Specifies RHS for solve_bvp.
+		bc: function. Specifies boundary conditions for solve_bvp.
 	
 	Returns:
 		solutions_this_k: list of dict. Each element has the following keys.
@@ -83,7 +87,7 @@ def get_modes_at_k(
 		if omega > omega_f:
 			guesser = lambda z_guess: make_guess_pmode(z_guess, n=n_guess)
 		
-		omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser)
+		omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser, rhs=rhs, bc=bc)
 		
 		if success and (np.abs(omega - omega_sol) < d_omega):
 			n = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z)
@@ -106,6 +110,8 @@ def construct_komega(
 	n_omega,
 	d_omega,
 	outputfile,
+	rhs,
+	bc,
 	n_workers=1,
 	):
 	"""
@@ -121,6 +127,8 @@ def construct_komega(
 		d_omega: float: Only consider modes which are further apart than this.
 		outputfile: str. Filename for the output.
 		n_workers: int. Number of worker processes to use (each worker will do the calculations for one value of k)
+		rhs: function. Specifies RHS for solve_bvp.
+		bc: function. Specifies boundary conditions for solve_bvp.
 	"""
 	if n_workers > n_k:
 		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
@@ -133,6 +141,8 @@ def construct_komega(
 			'omega_min': omega_min,
 			'n_omega': n_omega,
 			'd_omega': d_omega,
+			'rhs': rhs,
+			'bc': bc,
 			}
 		for k in np.linspace(0, k_max, n_k):
 			solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
@@ -214,6 +224,8 @@ if __name__ == "__main__":
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle",
 			n_workers = 2,
+			rhs = rhs,
+			bc = bc,
 			)
 	
 	if plot:
