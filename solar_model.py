@@ -165,7 +165,7 @@ class solar_model():
 		assert np.all(d.m >= 0)
 		d.g = np.where(d.m != 0, - d.G*d.m/d.r**2, 0)
 		d.H = 1/( - np.gradient(np.log(d.rho), d.z)/2 - np.gradient(np.log(d.c), d.z)/2 + d.g/d.c**2 )
-		assert np.all(d.H > 0)
+		# assert np.all(d.H > 0) # NOTE that this is not true with our changed definition of H.
 		
 		d.grad_lnT = np.gradient(np.log(d.T), d.z)
 		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
