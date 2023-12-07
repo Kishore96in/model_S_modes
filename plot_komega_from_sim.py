@@ -142,13 +142,17 @@ def construct_komega(
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
 
-def plot_komega(filename, k_scl, omega_scl):
+def plot_komega(filename, k_scl, omega_scl, ax=None):
 	"""
 	Arguments:
 		filename: str. Path to pickle file in which the k-omega diagram was saved.
 		k_scl: Multiplicative factor for k before plotting
 		omega_scl: multiplicative factor for omega before plotting.
+		ax: matplotlib axes object.
 	"""
+	if ax is None:
+		_, ax = plt.subplots()
+	
 	with open(filename, 'rb') as f:
 		solutions = pickle.load(f)
 	
@@ -171,7 +175,7 @@ def plot_komega(filename, k_scl, omega_scl):
 	points['k'] *= k_scl
 	points['omega'] *= omega_scl
 	
-	plt.scatter('k', 'omega', data=points)
+	return ax.scatter('k', 'omega', data=points)
 
 if __name__ == "__main__":
 	plot = True
