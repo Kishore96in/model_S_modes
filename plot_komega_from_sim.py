@@ -199,13 +199,17 @@ if __name__ == "__main__":
 	L_0 = model.c(0)**2/np.abs(model.g(0))
 	omega_0 = np.abs(model.g(0))/model.c(0)
 	
+	k_max = 0.5/L_0
+	omega_max = 1.5*omega_0
+	omega_min = 0.1*omega_0
+	
 	if not os.path.isfile("komega_from_sim.pickle"):
 		construct_komega(
 			model = model,
-			k_max = 0.5/L_0,
+			k_max = k_max,
 			n_k = 5,
-			omega_max = 1.5*omega_0,
-			omega_min = 0.1*omega_0,
+			omega_max = omega_max,
+			omega_min = omega_min,
 			n_omega = 100,
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle",
@@ -219,8 +223,9 @@ if __name__ == "__main__":
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$\widetilde{k}$")
 		ax.set_ylabel(r"$\widetilde{\omega}$")
+		ax.set_xlim(0, k_max*L_0)
+		ax.set_ylim(bottom=0, top=omega_max/omega_0)
+		
 		fig.tight_layout()
-		ax.set_xlim(left=0)
-		ax.set_ylim(bottom=0)
 		
 		plt.show()
