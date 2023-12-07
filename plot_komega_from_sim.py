@@ -87,6 +87,7 @@ def construct_komega(
 			omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser)
 			
 			if success and (np.abs(omega - omega_sol) < d_omega):
+				n = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z)
 				solutions_this_k.append({
 					'omega': omega_sol,
 					'mode': mode_sol,
