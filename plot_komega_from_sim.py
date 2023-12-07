@@ -125,20 +125,19 @@ def construct_komega(
 	if n_workers > n_k:
 		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
 	
-	pool = multiprocessing.Pool(n_workers)
-	
-	solutions = {}
-	kwds = {
-		'model': model,
-		'omega_max': omega_max,
-		'omega_min': omega_min,
-		'n_omega': n_omega,
-		'd_omega': d_omega,
-		}
-	for k in np.linspace(0, k_max, n_k):
-		solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
-	
-	solutions = {k: v.get() for k, v in solutions.items()}
+	with multiprocessing.Pool(n_workers) as pool:
+		solutions = {}
+		kwds = {
+			'model': model,
+			'omega_max': omega_max,
+			'omega_min': omega_min,
+			'n_omega': n_omega,
+			'd_omega': d_omega,
+			}
+		for k in np.linspace(0, k_max, n_k):
+			solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
+		
+		solutions = {k: v.get() for k, v in solutions.items()}
 	
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
