@@ -35,6 +35,8 @@ if __name__ == "__main__":
 			outputfile="komega_from_solar.pickle",
 			n_workers = 2,
 			)
+	else:
+		print("Skipping computation as cached results already exist.")
 	
 	if plot:
 		fig,ax = plt.subplots()
