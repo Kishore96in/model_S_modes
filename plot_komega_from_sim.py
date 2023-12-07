@@ -41,7 +41,7 @@ def construct_komega(
 	n_k,
 	omega_max,
 	omega_min,
-	n_omega
+	n_omega,
 	d_omega,
 	outputfile,
 	):
