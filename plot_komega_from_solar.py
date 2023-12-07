@@ -31,6 +31,7 @@ if __name__ == "__main__":
 			omega_min = omega_min,
 			n_omega = 200,
 			d_omega = omega_min,
+			nz = 75, #empirically, 3 grid points per Mm seems okay.
 			outputfile="komega_from_solar.pickle",
 			n_workers = 2,
 			)

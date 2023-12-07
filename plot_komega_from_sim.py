@@ -47,6 +47,7 @@ def get_modes_at_k(
 	bc,
 	z_bot,
 	z_top,
+	nz,
 	):
 	"""
 	Find the modes at a single value of k.
@@ -62,6 +63,7 @@ def get_modes_at_k(
 		bc: function. Specifies boundary conditions for solve_bvp.
 		z_bot: float: position of the bottom of the domain.
 		z_top: float: position of the top of the domain.
+		nz: int. Minimum number of grid points to use for the initial grid passed to solve_bvp.
 	
 	Returns:
 		solutions_this_k: list of dict. Each element has the following keys.
@@ -85,7 +87,7 @@ def get_modes_at_k(
 		if omega < omega_last + d_omega:
 			continue
 		
-		z_guess = np.linspace(z_bot, z_top, 10+2*n_guess)
+		z_guess = np.linspace(z_bot, z_top, nz+2*n_guess)
 		if omega > omega_f:
 			guesser = lambda z_guess: make_guess_pmode(z_guess, n=n_guess)
 		
@@ -116,6 +118,7 @@ def construct_komega(
 	bc,
 	z_bot = None,
 	z_top = None,
+	nz = 10,
 	n_workers=1,
 	):
 	"""
@@ -135,6 +138,7 @@ def construct_komega(
 		bc: function. Specifies boundary conditions for solve_bvp.
 		z_bot: float: position of the bottom of the domain.
 		z_top: float: position of the top of the domain.
+		nz: int. Minimum number of grid points to use for the initial grid passed to solve_bvp.
 	"""
 	if n_workers > n_k:
 		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
@@ -156,6 +160,7 @@ def construct_komega(
 			'bc': bc,
 			'z_bot': z_bot,
 			'z_top': z_top,
+			'nz': nz,
 			}
 		for k in np.linspace(0, k_max, n_k):
 			solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
