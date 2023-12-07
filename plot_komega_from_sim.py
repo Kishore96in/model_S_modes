@@ -16,7 +16,7 @@ def find_mode(omega_guess, k, model, z_guess, guesser):
 	p_guess = np.array([omega_guess])
 	
 	RHS = lambda z, y, p: rhs(z, y, p, k=k, model=model)
-	BC = lambda y_bot, y_top, p: bc(y_bot, y_top, p, k=k, model=model, z_bot=z_bot, z_top=z_top)
+	BC = lambda y_bot, y_top, p: bc(y_bot, y_top, p, k=k, model=model, z_bot=min(z_guess), z_top=max(z_guess))
 	
 	sol = scipy.integrate.solve_bvp(
 		RHS,
