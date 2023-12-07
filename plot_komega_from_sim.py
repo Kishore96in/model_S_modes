@@ -42,8 +42,10 @@ def make_guess_fmode_from_k(z_guess, k, model):
 def construct_komega(
 	model,
 	k_max,
+	n_k,
 	omega_max,
 	omega_min,
+	n_omega
 	d_omega,
 	outputfile,
 	):
@@ -53,8 +55,10 @@ def construct_komega(
 	Arguments:
 		model: instance of solar_model.solar_model. Background state for which computations should be done.
 		k_max: float. Maximum value of k to probe.
+		n_k: int. Number of k values to compute for in the range 0,k_max.
 		omega_max: float. Maximum value of omega to probe.
 		omega_min: float. Minimum value of omega to probe.
+		n_omega: int. Number of omega values to compute for in the range omega_min, omega_max.
 		d_omega: float: Only consider modes which are further apart than this.
 		outputfile: str. Filename for the output.
 	"""
@@ -63,8 +67,8 @@ def construct_komega(
 	z_top = model.z_max
 	
 	z = np.linspace(z_bot, z_top, int(1e3))
-	k_range = np.linspace(0, k_max, 5)
-	omega_range = np.linspace(omega_min, omega_max, 100)
+	k_range = np.linspace(0, k_max, n_k)
+	omega_range = np.linspace(omega_min, omega_max, n_omega)
 	
 	g = np.sqrt(np.abs(model.g(z_top))) #Used to estimate f mode frequency.
 	
@@ -141,8 +145,10 @@ if __name__ == "__main__":
 		construct_komega(
 			model = model,
 			k_max = 0.5/L_0,
+			n_k = 5,
 			omega_max = 1.5*omega_0,
 			omega_min = 0.1*omega_0,
+			n_omega = 100,
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle")
 	
