@@ -100,6 +100,37 @@ def construct_komega(
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
 
+def plot_komega(filename, k_scl, omega_scl):
+	"""
+	Arguments:
+		filename: str. Path to pickle file in which the k-omega diagram was saved.
+		k_scl: Multiplicative factor for k before plotting
+		omega_scl: multiplicative factor for omega before plotting.
+	"""
+	with open(filename, 'rb') as f:
+		solutions = pickle.load(f)
+	
+	k_list = list(solutions.keys())
+	
+	points = {
+		'k': [],
+		'omega': [],
+		'n': [],
+		}
+	
+	for k in k_list:
+		for p in solutions[k]:
+			points['k'].append(k)
+			points['omega'].append(p['omega'])
+			points['n'].append(p['n'])
+	
+	points = {key: np.array(v) for key, v in points.items()}
+	
+	points['k'] *= k_scl
+	points['omega'] *= omega_scl
+	
+	plt.scatter('k', 'omega', data=points)
+
 if __name__ == "__main__":
 	model = solar_model("background_a6.0l.1.pickle")
 	L_0 = model.c(0)**2/np.abs(model.g(0))
@@ -113,3 +144,7 @@ if __name__ == "__main__":
 			omega_min = 0.1*omega_0,
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle")
+	
+	plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0)
+	
+	plt.show()
