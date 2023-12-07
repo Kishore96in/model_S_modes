@@ -226,6 +226,11 @@ if __name__ == "__main__":
 		ax.set_xlim(0, k_max*L_0)
 		ax.set_ylim(bottom=0, top=omega_max/omega_0)
 		
+		#The line where the modes appear to change order.
+		k = np.linspace(0, k_max, 100)
+		om = model.c(model.z_min)*k
+		ax.plot(k*L_0, om/omega_0, ls='--', c='k')
+		
 		fig.tight_layout()
 		
 		plt.show()
