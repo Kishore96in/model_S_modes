@@ -10,7 +10,7 @@ import scipy.integrate
 import pickle
 
 from bg_from_sim import solar_model_from_sim as solar_model
-from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode, make_guess_fmode_with_omega
+from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
 
 def find_mode(omega_guess, k, model, z_guess, guesser):
 	y_guess = guesser(z_guess)
@@ -33,10 +33,6 @@ def find_mode(omega_guess, k, model, z_guess, guesser):
 		warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
 	
 	return np.real_if_close(sol.p[0]), sol.sol, sol.success
-
-def make_guess_fmode_from_k(z_guess, k, model):
-	y_guess, p_guess = make_guess_fmode_with_omega(z_guess, k=k, model=model)
-	return y_guess
 
 
 def construct_komega(
@@ -77,7 +73,7 @@ def construct_komega(
 		solutions_this_k = []
 		omega_last = -np.inf
 		n_guess = 0
-		guesser = lambda z_guess: make_guess_fmode_from_k(z_guess, k=k, model=model)
+		guesser = lambda z_guess: make_guess_fmode_from_k(z_guess, k=k)
 		omega_f = np.sqrt(g*k)
 		
 		for omega in omega_range:

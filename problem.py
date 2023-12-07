@@ -133,6 +133,27 @@ def make_guess_fmode(z_guess):
 	y_guess[1,-2] = 1
 	return y_guess
 
+
+def make_guess_fmode_from_k(z_guess, k):
+	"""
+	Generate initial guess to encourage solve_bvp to find the f mode.
+	
+	Arguments:
+		z_guess: 1D numpy array. Grid
+		k: float, Wavenumber
+	"""
+	z_top = np.max(z_guess)
+	
+	y_guess = np.zeros((3,len(z_guess)), dtype=complex)
+	y_guess[2] = np.linspace(0,1,len(z_guess))
+	y_guess[1] = np.where(
+		z_guess < 0,
+		np.exp(-np.abs(k*z_guess)),
+		1 - z_guess/z_top,
+		)
+	
+	return y_guess
+
 def count_zero_crossings(arr, z_max=None, z=None):
 	"""
 	Count the number of zero crossings in the array arr. The first and last points are ignored even if the values there are zero.
