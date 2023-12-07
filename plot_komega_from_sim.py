@@ -48,24 +48,24 @@ if __name__ == "__main__":
 	k_max = 0.5/L_0
 	omega_max = 1.5*omega_0
 	omega_min = 0.1*omega_0
+	d_omega = 0.1*omega_0 #Only accept modes whose frequency is closer than this to the target
 	
 	z = np.linspace(z_bot, z_top, int(1e3))
 	k_range = np.linspace(0, k_max, 5)
 	omega_range = np.linspace(omega_min, omega_max, 10)
-	d_omega = omega_range[1] - omega_range[0]
 	
 	g = np.sqrt(np.abs(model.g(z_top))) #Used to estimate f mode frequency.
 	
 	solutions = {}
 	for k in k_range:
 		solutions_this_k = []
-		omega_last = -1
+		omega_last = -np.inf
 		n_guess = 0
 		guesser = lambda z_guess: make_guess_fmode_from_k(z_guess, k=k, model=model)
 		omega_f = np.sqrt(g*k)
 		
 		for omega in omega_range:
-			if omega < omega_last:
+			if omega < omega_last + d_omega:
 				continue
 			
 			z_guess = np.linspace(z_bot, z_top, 10+2*n_guess)
