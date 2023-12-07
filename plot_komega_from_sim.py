@@ -2,6 +2,7 @@
 Plot the dispersion relations of all found modes with the background state taken from a simulation of convection.
 """
 
+import os
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
@@ -101,14 +102,14 @@ def construct_komega(
 
 if __name__ == "__main__":
 	model = solar_model("background_a6.0l.1.pickle")
-	
 	L_0 = model.c(0)**2/np.abs(model.g(0))
 	omega_0 = np.abs(model.g(0))/model.c(0)
 	
-	construct_komega(
-		model = model,
-		k_max = 0.5/L_0,
-		omega_max = 1.5*omega_0,
-		omega_min = 0.1*omega_0,
-		d_omega = 0.1*omega_0,
-		outputfile="komega_from_sim.pickle")
+	if not os.path.isfile("komega_from_sim.pickle"):
+		construct_komega(
+			model = model,
+			k_max = 0.5/L_0,
+			omega_max = 1.5*omega_0,
+			omega_min = 0.1*omega_0,
+			d_omega = 0.1*omega_0,
+			outputfile="komega_from_sim.pickle")
