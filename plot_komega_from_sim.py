@@ -244,7 +244,7 @@ if __name__ == "__main__":
 	if plot:
 		fig,ax = plt.subplots()
 		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
-		l = ax.legend()
+		l = ax.legend(loc=(0.8,0.15))
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$\widetilde{k}$")
 		ax.set_ylabel(r"$\widetilde{\omega}$")
