@@ -165,7 +165,7 @@ def construct_komega(
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
 
-def plot_komega(filename, k_scl, omega_scl, ax=None, n_max=None):
+def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
 	"""
 	Arguments:
 		filename: str. Path to pickle file in which the k-omega diagram was saved.
