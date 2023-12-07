@@ -137,6 +137,7 @@ def plot_komega(filename, k_scl, omega_scl):
 	plt.scatter('k', 'omega', data=points)
 
 if __name__ == "__main__":
+	plot = True
 	model = solar_model("background_a6.0l.1.pickle")
 	L_0 = model.c(0)**2/np.abs(model.g(0))
 	omega_0 = np.abs(model.g(0))/model.c(0)
@@ -152,6 +153,6 @@ if __name__ == "__main__":
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle")
 	
-	plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0)
-	
-	plt.show()
+	if plot:
+		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0)
+		plt.show()
