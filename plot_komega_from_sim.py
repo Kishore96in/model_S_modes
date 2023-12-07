@@ -11,7 +11,7 @@ import pickle
 import multiprocessing
 
 from bg_from_sim import solar_model_from_sim as solar_model
-from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
+from problem import rhs, bc_imp_both, count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
 
 def find_mode(omega_guess, k, model, z_guess, guesser, rhs, bc):
 	y_guess = guesser(z_guess)
@@ -225,7 +225,7 @@ if __name__ == "__main__":
 			outputfile="komega_from_sim.pickle",
 			n_workers = 2,
 			rhs = rhs,
-			bc = bc,
+			bc = bc_imp_both,
 			)
 	
 	if plot:
