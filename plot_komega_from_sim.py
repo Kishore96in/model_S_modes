@@ -35,6 +35,67 @@ def find_mode(omega_guess, k, model, z_guess, guesser):
 	return np.real_if_close(sol.p[0]), sol.sol, sol.success
 
 
+def get_modes_at_k(
+	k,
+	model,
+	omega_max,
+	omega_min,
+	n_omega,
+	d_omega,
+	):
+	"""
+	Find the modes at a single value of k.
+	
+	Arguments:
+		k: float.
+		model: instance of solar_model.solar_model. Background state for which computations should be done.
+		omega_max: float. Maximum value of omega to probe.
+		omega_min: float. Minimum value of omega to probe.
+		n_omega: int. Number of omega values to compute for in the range omega_min, omega_max.
+		d_omega: float: Only consider modes which are further apart than this.
+	
+	Returns:
+		solutions_this_k: list of dict. Each element has the following keys.
+			'omega': complex or float. Eigenfrequency
+			'sol': spline describing the eigenfunction
+			'n': int. Number of zero crossings of the real part of u_z below z=0.
+	"""
+	
+	z_bot = model.z_min
+	z_top = model.z_max
+	z = np.linspace(z_bot, z_top, int(1e3))
+	omega_range = np.linspace(omega_min, omega_max, n_omega)
+	
+	solutions_this_k = []
+	omega_last = -np.inf
+	n_guess = 0
+	guesser = lambda z_guess: make_guess_fmode_from_k(z_guess, k=k)
+	
+	g = np.sqrt(np.abs(model.g(z_top)))
+	omega_f = np.sqrt(g*k)
+	
+	for omega in omega_range:
+		if omega < omega_last + d_omega:
+			continue
+		
+		z_guess = np.linspace(z_bot, z_top, 10+2*n_guess)
+		if omega > omega_f:
+			guesser = lambda z_guess: make_guess_pmode(z_guess, n=n_guess)
+		
+		omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser)
+		
+		if success and (np.abs(omega - omega_sol) < d_omega):
+			n = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z)
+			solutions_this_k.append({
+				'omega': omega_sol,
+				'mode': mode_sol,
+				'n': n,
+				})
+			omega_last = omega_sol
+			n_guess = n+1
+	
+	return solutions_this_k
+
 def construct_komega(
 	model,
 	k_max,
@@ -59,44 +120,16 @@ def construct_komega(
 		outputfile: str. Filename for the output.
 	"""
 	
-	z_bot = model.z_min
-	z_top = model.z_max
-	
-	z = np.linspace(z_bot, z_top, int(1e3))
-	k_range = np.linspace(0, k_max, n_k)
-	omega_range = np.linspace(omega_min, omega_max, n_omega)
-	
-	g = np.sqrt(np.abs(model.g(z_top))) #Used to estimate f mode frequency.
-	
 	solutions = {}
-	for k in k_range:
-		solutions_this_k = []
-		omega_last = -np.inf
-		n_guess = 0
-		guesser = lambda z_guess: make_guess_fmode_from_k(z_guess, k=k)
-		omega_f = np.sqrt(g*k)
-		
-		for omega in omega_range:
-			if omega < omega_last + d_omega:
-				continue
-			
-			z_guess = np.linspace(z_bot, z_top, 10+2*n_guess)
-			if omega > omega_f:
-				guesser = lambda z_guess: make_guess_pmode(z_guess, n=n_guess)
-			
-			omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser)
-			
-			if success and (np.abs(omega - omega_sol) < d_omega):
-				n = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z)
-				solutions_this_k.append({
-					'omega': omega_sol,
-					'mode': mode_sol,
-					'n': n,
-					})
-				omega_last = omega_sol
-				n_guess = n+1
-		
-		solutions[k] = solutions_this_k
+	for k in np.linspace(0, k_max, n_k):
+		solutions[k] = get_modes_at_k(
+			k = k,
+			model = model,
+			omega_max = omega_max,
+			omega_min = omega_min,
+			n_omega = n_omega,
+			d_omega = d_omega,
+			)
 	
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
