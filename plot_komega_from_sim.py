@@ -75,7 +75,10 @@ if __name__ == "__main__":
 			omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser)
 			
 			if success and (np.abs(omega - omega_sol) < d_omega):
-				solutions_this_k.append({'omega': np.real_if_close(omega_sol), 'mode': mode_sol})
+				solutions_this_k.append({
+					'omega': omega_sol,
+					'mode': mode_sol,
+					})
 				omega_last = omega_sol
 				n_guess = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z) + 1
 		
