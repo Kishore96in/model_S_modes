@@ -52,7 +52,7 @@ if __name__ == "__main__":
 	
 	z = np.linspace(z_bot, z_top, int(1e3))
 	k_range = np.linspace(0, k_max, 5)
-	omega_range = np.linspace(omega_min, omega_max, 10)
+	omega_range = np.linspace(omega_min, omega_max, 100)
 	
 	g = np.sqrt(np.abs(model.g(z_top))) #Used to estimate f mode frequency.
 	
