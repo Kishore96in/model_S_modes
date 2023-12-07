@@ -27,7 +27,7 @@ def find_mode(omega_guess, k, model, z_guess, guesser):
 		x=z_guess,
 		y=y_guess,
 		tol = 1e-6,
-		max_nodes=1e6,
+		max_nodes=1e5,
 		)
 		
 	if not sol.success:
