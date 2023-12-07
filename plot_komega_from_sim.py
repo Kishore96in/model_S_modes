@@ -45,6 +45,8 @@ def get_modes_at_k(
 	d_omega,
 	rhs,
 	bc,
+	z_bot,
+	z_top,
 	):
 	"""
 	Find the modes at a single value of k.
@@ -58,6 +60,8 @@ def get_modes_at_k(
 		d_omega: float: Only consider modes which are further apart than this.
 		rhs: function. Specifies RHS for solve_bvp.
 		bc: function. Specifies boundary conditions for solve_bvp.
+		z_bot: float: position of the bottom of the domain.
+		z_top: float: position of the top of the domain.
 	
 	Returns:
 		solutions_this_k: list of dict. Each element has the following keys.
@@ -66,8 +70,6 @@ def get_modes_at_k(
 			'n': int. Number of zero crossings of the real part of u_z below z=0.
 	"""
 	
-	z_bot = model.z_min
-	z_top = model.z_max
 	z = np.linspace(z_bot, z_top, int(1e3))
 	omega_range = np.linspace(omega_min, omega_max, n_omega)
 	
@@ -112,6 +114,8 @@ def construct_komega(
 	outputfile,
 	rhs,
 	bc,
+	z_bot = None,
+	z_top = None,
 	n_workers=1,
 	):
 	"""
@@ -129,9 +133,16 @@ def construct_komega(
 		n_workers: int. Number of worker processes to use (each worker will do the calculations for one value of k)
 		rhs: function. Specifies RHS for solve_bvp.
 		bc: function. Specifies boundary conditions for solve_bvp.
+		z_bot: float: position of the bottom of the domain.
+		z_top: float: position of the top of the domain.
 	"""
 	if n_workers > n_k:
 		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
+	
+	if z_bot is None:
+		z_bot = model.z_min
+	if z_top is None:
+		z_top = model.z_max
 	
 	with multiprocessing.Pool(n_workers) as pool:
 		solutions = {}
@@ -143,6 +154,8 @@ def construct_komega(
 			'd_omega': d_omega,
 			'rhs': rhs,
 			'bc': bc,
+			'z_bot': z_bot,
+			'z_top': z_top,
 			}
 		for k in np.linspace(0, k_max, n_k):
 			solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
