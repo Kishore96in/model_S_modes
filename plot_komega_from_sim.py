@@ -33,7 +33,7 @@ def find_mode(omega_guess, k, model, z_guess, guesser, rhs, bc):
 	if not sol.success:
 		warnings.warn(f"Solver failed for {k = }, {omega_guess = }. {sol.message}", RuntimeWarning)
 	
-	return np.real_if_close(sol.p[0]), sol.sol, sol.success
+	return np.real_if_close(sol.p)[0], sol.sol, sol.success
 
 
 def get_modes_at_k(
