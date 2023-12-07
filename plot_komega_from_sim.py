@@ -37,18 +37,29 @@ def make_guess_fmode_from_k(z_guess, k, model):
 	y_guess, p_guess = make_guess_fmode_with_omega(z_guess, k=k, model=model)
 	return y_guess
 
-if __name__ == "__main__":
-	model = solar_model("background_a6.0l.1.pickle")
+
+def construct_komega(
+	model,
+	k_max,
+	omega_max,
+	omega_min,
+	d_omega,
+	outputfile,
+	):
+	"""
+	Construct the k-omega diagram for a specified background and store it in a pickle file.
+	
+	Arguments:
+		model: instance of solar_model.solar_model. Background state for which computations should be done.
+		k_max: float. Maximum value of k to probe.
+		omega_max: float. Maximum value of omega to probe.
+		omega_min: float. Minimum value of omega to probe.
+		d_omega: float: Only consider modes which are further apart than this.
+		outputfile: str. Filename for the output.
+	"""
 	
 	z_bot = model.z_min
 	z_top = model.z_max
-	L_0 = model.c(0)**2/np.abs(model.g(0))
-	omega_0 = np.abs(model.g(0))/model.c(0)
-	
-	k_max = 0.5/L_0
-	omega_max = 1.5*omega_0
-	omega_min = 0.1*omega_0
-	d_omega = 0.1*omega_0 #Only accept modes whose frequency is closer than this to the target
 	
 	z = np.linspace(z_bot, z_top, int(1e3))
 	k_range = np.linspace(0, k_max, 5)
@@ -78,11 +89,26 @@ if __name__ == "__main__":
 				solutions_this_k.append({
 					'omega': omega_sol,
 					'mode': mode_sol,
+					'n': n,
 					})
 				omega_last = omega_sol
-				n_guess = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z) + 1
+				n_guess = n+1
 		
 		solutions[k] = solutions_this_k
 	
-	with open("komega_from_sim.pickle", 'wb') as f:
+	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
+
+if __name__ == "__main__":
+	model = solar_model("background_a6.0l.1.pickle")
+	
+	L_0 = model.c(0)**2/np.abs(model.g(0))
+	omega_0 = np.abs(model.g(0))/model.c(0)
+	
+	construct_komega(
+		model = model,
+		k_max = 0.5/L_0,
+		omega_max = 1.5*omega_0,
+		omega_min = 0.1*omega_0,
+		d_omega = 0.1*omega_0,
+		outputfile="komega_from_sim.pickle")
