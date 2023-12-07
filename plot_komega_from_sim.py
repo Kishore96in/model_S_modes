@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate
 import pickle
+import multiprocessing
 
 from bg_from_sim import solar_model_from_sim as solar_model
 from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
@@ -105,6 +106,7 @@ def construct_komega(
 	n_omega,
 	d_omega,
 	outputfile,
+	n_workers=1,
 	):
 	"""
 	Construct the k-omega diagram for a specified background and store it in a pickle file.
@@ -118,18 +120,25 @@ def construct_komega(
 		n_omega: int. Number of omega values to compute for in the range omega_min, omega_max.
 		d_omega: float: Only consider modes which are further apart than this.
 		outputfile: str. Filename for the output.
+		n_workers: int. Number of worker processes to use (each worker will do the calculations for one value of k)
 	"""
+	if n_workers > n_k:
+		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
+	
+	pool = multiprocessing.Pool(n_workers)
 	
 	solutions = {}
+	kwds = {
+		'model': model,
+		'omega_max': omega_max,
+		'omega_min': omega_min,
+		'n_omega': n_omega,
+		'd_omega': d_omega,
+		}
 	for k in np.linspace(0, k_max, n_k):
-		solutions[k] = get_modes_at_k(
-			k = k,
-			model = model,
-			omega_max = omega_max,
-			omega_min = omega_min,
-			n_omega = n_omega,
-			d_omega = d_omega,
-			)
+		solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
+	
+	solutions = {k: v.get() for k, v in solutions.items()}
 	
 	with open(outputfile, 'wb') as f:
 		pickle.dump(solutions, f)
@@ -180,7 +189,9 @@ if __name__ == "__main__":
 			omega_min = 0.1*omega_0,
 			n_omega = 100,
 			d_omega = 0.1*omega_0,
-			outputfile="komega_from_sim.pickle")
+			outputfile="komega_from_sim.pickle",
+			n_workers = 2,
+			)
 	
 	if plot:
 		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0)
