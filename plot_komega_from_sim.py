@@ -36,7 +36,7 @@ if __name__ == "__main__":
 		print("Skipping computation as cached results already exist.")
 	
 	if plot:
-		with open("komega_from_solar.pickle", 'rb') as f:
+		with open(cachefile, 'rb') as f:
 			ret = pickle.load(f)
 		
 		model = ret['model']
