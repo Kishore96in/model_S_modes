@@ -245,20 +245,17 @@ def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
 
 if __name__ == "__main__":
 	plot = True
-	model = solar_model("background_a6.0l.1.pickle")
-	L_0 = model.c(0)**2/np.abs(model.g(0))
-	omega_0 = np.abs(model.g(0))/model.c(0)
-	
-	k_list = np.linspace(0, 0.5/L_0, 5)
-	omega_max = 1.5*omega_0
-	omega_min = 0.1*omega_0
 	
 	if not os.path.isfile("komega_from_sim.pickle"):
+		model = solar_model("background_a6.0l.1.pickle")
+		L_0 = model.c(0)**2/np.abs(model.g(0))
+		omega_0 = np.abs(model.g(0))/model.c(0)
+		
 		construct_komega(
 			model = model,
-			omega_max = omega_max,
-			omega_min = omega_min,
-			k_list = k_list,
+			omega_max = 1.5*omega_0,
+			omega_min = 0.1*omega_0,
+			k_list = np.linspace(0, 0.5/L_0, 5),
 			n_omega = 100,
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle",
@@ -270,7 +267,16 @@ if __name__ == "__main__":
 		print("Skipping computation as cached results already exist.")
 	
 	if plot:
-		k_max = max(k_list)
+		with open("komega_from_solar.pickle", 'rb') as f:
+			ret = pickle.load(f)
+		
+		model = ret['model']
+		z_bot = ret['z_bot']
+		k_max = max(ret['k_list'])
+		omega_max = ret['omega_max']
+		
+		L_0 = model.c(0)**2/np.abs(model.g(0))
+		omega_0 = np.abs(model.g(0))/model.c(0)
 		
 		fig,ax = plt.subplots()
 		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
@@ -283,7 +289,7 @@ if __name__ == "__main__":
 		
 		#The line where the modes appear to change order.
 		k = np.linspace(0, k_max, 100)
-		om = model.c(model.z_min)*k
+		om = model.c(z_bot)*k
 		ax.plot(k*L_0, om/omega_0, ls='--', c='k')
 		
 		fig.tight_layout()
