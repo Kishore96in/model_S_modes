@@ -202,9 +202,7 @@ def plot_komega(
 		scatter_kwargs = {}
 	
 	with open(filename, 'rb') as f:
-		ret = pickle.load(f)
-	
-	solutions = ret['solutions']
+		solutions = pickle.load(f)['solutions']
 	
 	points = {
 		'k': [],
