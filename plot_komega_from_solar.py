@@ -14,6 +14,7 @@ if __name__ == "__main__":
 	plot = True
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
+	k_list = np.linspace(0,1,5)
 	k_max = 1
 	omega_max = 2.5e-2
 	omega_min = 5e-4
@@ -25,8 +26,7 @@ if __name__ == "__main__":
 			bc = bc,
 			z_bot = -25,
 			z_top = 0.45,
-			k_max = k_max,
-			n_k = 5,
+			k_list = k_list,
 			omega_max = omega_max,
 			omega_min = omega_min,
 			n_omega = 200,
@@ -39,6 +39,8 @@ if __name__ == "__main__":
 		print("Skipping computation as cached results already exist.")
 	
 	if plot:
+		k_max = max(k_list)
+		
 		fig,ax = plt.subplots()
 		plot_komega("komega_from_solar.pickle", n_max=3, ax=ax)
 		l = ax.legend()

@@ -107,8 +107,7 @@ def get_modes_at_k(
 
 def construct_komega(
 	model,
-	k_max,
-	n_k,
+	k_list,
 	omega_max,
 	omega_min,
 	n_omega,
@@ -126,8 +125,7 @@ def construct_komega(
 	
 	Arguments:
 		model: instance of solar_model.solar_model. Background state for which computations should be done.
-		k_max: float. Maximum value of k to probe.
-		n_k: int. Number of k values to compute for in the range 0,k_max.
+		k_list: list of k at which the modes should be found.
 		omega_max: float. Maximum value of omega to probe.
 		omega_min: float. Minimum value of omega to probe.
 		n_omega: int. Number of omega values to compute for in the range omega_min, omega_max.
@@ -140,15 +138,13 @@ def construct_komega(
 		z_top: float: position of the top of the domain.
 		nz: int. Minimum number of grid points to use for the initial grid passed to solve_bvp.
 	"""
-	if n_workers > n_k:
-		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({n_k}). Some of them will remain idle.", )
+	if n_workers > len(k_list):
+		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({len(k_list)}). Some of them will remain idle.", )
 	
 	if z_bot is None:
 		z_bot = model.z_min
 	if z_top is None:
 		z_top = model.z_max
-	
-	k_list = np.linspace(0, k_max, n_k)
 	
 	with multiprocessing.Pool(n_workers) as pool:
 		solutions = {}
@@ -250,15 +246,13 @@ if __name__ == "__main__":
 	L_0 = model.c(0)**2/np.abs(model.g(0))
 	omega_0 = np.abs(model.g(0))/model.c(0)
 	
-	k_max = 0.5/L_0
+	k_list = np.linspace(0, 0.5/L_0, 5)
 	omega_max = 1.5*omega_0
 	omega_min = 0.1*omega_0
 	
 	if not os.path.isfile("komega_from_sim.pickle"):
 		construct_komega(
 			model = model,
-			k_max = k_max,
-			n_k = 5,
 			omega_max = omega_max,
 			omega_min = omega_min,
 			n_omega = 100,
@@ -270,6 +264,8 @@ if __name__ == "__main__":
 			)
 	
 	if plot:
+		k_max = max(k_list)
+		
 		fig,ax = plt.subplots()
 		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
 		l = ax.legend(loc=(0.8,0.15))
