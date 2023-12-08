@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import pickle
 
 from solar_model import solar_model, read_extensive_model_MmKS as reader
-from plot_komega_from_sim import construct_komega, plot_komega
+from komega import construct_komega, plot_komega
 from problem import rhs, bc
 
 if __name__ == "__main__":
