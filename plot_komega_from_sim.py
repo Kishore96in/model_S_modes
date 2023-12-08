@@ -72,7 +72,6 @@ def get_modes_at_k(
 			'n': int. Number of zero crossings of the real part of u_z below z=0.
 	"""
 	
-	z = np.linspace(z_bot, z_top, int(1e3))
 	omega_range = np.linspace(omega_min, omega_max, n_omega)
 	
 	if d_omega < np.min(np.diff(omega_range))/2:
@@ -97,6 +96,7 @@ def get_modes_at_k(
 		omega_sol, mode_sol, success = find_mode(omega, k=k, model=model, z_guess=z_guess, guesser=guesser, rhs=rhs, bc=bc)
 		
 		if success and (np.abs(omega - omega_sol) < d_omega):
+			z = np.linspace(z_bot, z_top, int(max(1e3, nz)))
 			n = count_zero_crossings(np.real(mode_sol(z)[1]), z_max=0, z=z)
 			solutions_this_k.append({
 				'omega': omega_sol,
