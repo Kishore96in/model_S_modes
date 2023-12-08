@@ -265,6 +265,8 @@ if __name__ == "__main__":
 			rhs = rhs,
 			bc = bc_imp_both,
 			)
+	else:
+		print("Skipping computation as cached results already exist.")
 	
 	if plot:
 		k_max = max(k_list)
