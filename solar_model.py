@@ -219,7 +219,7 @@ if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=read_extensive_model_MmKS)
 	
 	plot(model, 'c', logy=True)
-	plot(model, 'H', logy=True)
+	plot(model, 'H')
 	fig, ax = plot(model, 'g', logy=True, absolute=True)
 	ax.set_ylim(1e-4, 1e-2)
 	
