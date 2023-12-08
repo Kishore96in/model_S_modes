@@ -15,7 +15,6 @@ if __name__ == "__main__":
 	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 	
 	k_list = np.linspace(0,1,5)
-	k_max = 1
 	omega_max = 2.5e-2
 	omega_min = 5e-4
 	
