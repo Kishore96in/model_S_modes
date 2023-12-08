@@ -245,8 +245,9 @@ def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
 
 if __name__ == "__main__":
 	plot = True
+	cachefile = "komega_from_sim.pickle"
 	
-	if not os.path.isfile("komega_from_sim.pickle"):
+	if not os.path.isfile(cachefile):
 		model = solar_model("background_a6.0l.1.pickle")
 		L_0 = model.c(0)**2/np.abs(model.g(0))
 		omega_0 = np.abs(model.g(0))/model.c(0)
@@ -258,7 +259,7 @@ if __name__ == "__main__":
 			k_list = np.linspace(0, 0.5/L_0, 5),
 			n_omega = 100,
 			d_omega = 0.1*omega_0,
-			outputfile="komega_from_sim.pickle",
+			outputfile=cachefile,
 			n_workers = 2,
 			rhs = rhs,
 			bc = bc_imp_both,
@@ -279,7 +280,7 @@ if __name__ == "__main__":
 		omega_0 = np.abs(model.g(0))/model.c(0)
 		
 		fig,ax = plt.subplots()
-		plot_komega("komega_from_sim.pickle", k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
+		plot_komega(cachefile, k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
 		l = ax.legend(loc=(0.8,0.15))
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$\widetilde{k}$")

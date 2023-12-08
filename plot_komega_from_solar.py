@@ -12,8 +12,9 @@ from problem import rhs, bc
 
 if __name__ == "__main__":
 	plot = True
+	cachefile = "komega_from_solar.pickle"
 	
-	if not os.path.isfile("komega_from_solar.pickle"):
+	if not os.path.isfile(cachefile):
 		model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
 		
 		construct_komega(
@@ -28,21 +29,21 @@ if __name__ == "__main__":
 			n_omega = 200,
 			d_omega = 5e-4,
 			nz = 75, #empirically, 3 grid points per Mm seems okay.
-			outputfile="komega_from_solar.pickle",
+			outputfile=cachefile,
 			n_workers = 2,
 			)
 	else:
 		print("Skipping computation as cached results already exist.")
 	
 	if plot:
-		with open("komega_from_solar.pickle", 'rb') as f:
+		with open(cachefile, 'rb') as f:
 			ret = pickle.load(f)
 		
 		k_max = max(ret['k_list'])
 		omega_max = ret['omega_max']
 		
 		fig,ax = plt.subplots()
-		plot_komega("komega_from_solar.pickle", n_max=3, ax=ax)
+		plot_komega(cachefile, n_max=5, ax=ax)
 		l = ax.legend()
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$k$")
