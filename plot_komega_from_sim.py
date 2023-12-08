@@ -16,7 +16,7 @@ if __name__ == "__main__":
 	cachefile = "komega_from_sim.pickle"
 	
 	if not os.path.isfile(cachefile):
-		model = solar_model("background_a6.0l.1.pickle")
+		model = solar_model("data/background_from_simulation/background_a6.0l.1.pickle")
 		L_0 = model.c(0)**2/np.abs(model.g(0))
 		omega_0 = np.abs(model.g(0))/model.c(0)
 		
