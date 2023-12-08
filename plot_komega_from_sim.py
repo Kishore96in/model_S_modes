@@ -75,6 +75,9 @@ def get_modes_at_k(
 	z = np.linspace(z_bot, z_top, int(1e3))
 	omega_range = np.linspace(omega_min, omega_max, n_omega)
 	
+	if d_omega < np.min(np.diff(omega_range))/2:
+		warnings.warn(f"get_modes_at_k: d_omega is less than the minimum spacing between omega. you will most likely miss some modes.", RuntimeWarning)
+	
 	solutions_this_k = []
 	omega_last = -np.inf
 	n_guess = 0
