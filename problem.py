@@ -182,7 +182,7 @@ def count_zero_crossings(arr, z_max=None, z=None):
 	return int(n)
 
 if __name__ == "__main__":
-	model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
+	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	
 	z_bot = -200
 	z_top = 0.45

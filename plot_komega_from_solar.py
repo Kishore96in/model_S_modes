@@ -16,7 +16,7 @@ if __name__ == "__main__":
 	cachefile = "komega_from_solar.pickle"
 	
 	if not os.path.isfile(cachefile):
-		model = solar_model("Model S extensive data/fgong.l5bi.d.15", reader=reader)
+		model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 		
 		construct_komega(
 			model = model,
