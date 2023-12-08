@@ -179,7 +179,14 @@ def construct_komega(
 	with open(outputfile, 'wb') as f:
 		pickle.dump(ret, f)
 
-def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
+def plot_komega(
+	filename,
+	k_scl=1,
+	omega_scl=1,
+	ax=None,
+	n_max=None,
+	scatter_kwargs=None,
+	):
 	"""
 	Arguments:
 		filename: str. Path to pickle file in which the k-omega diagram was saved.
@@ -187,9 +194,12 @@ def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
 		omega_scl: multiplicative factor for omega before plotting.
 		ax: matplotlib axes object.
 		n_max: int. In the legend, do not separately indicate modes with more than this many nodes.
+		scatter_kwargs: dict. Extra kwargs to be passed to plt.scatter.
 	"""
 	if ax is None:
 		_, ax = plt.subplots()
+	if scatter_kwargs is None:
+		scatter_kwargs = {}
 	
 	with open(filename, 'rb') as f:
 		ret = pickle.load(f)
@@ -234,4 +244,4 @@ def plot_komega(filename, k_scl=1, omega_scl=1, ax=None, n_max=None):
 		
 		inds = (n_ceil == n)
 		data = {key: v[inds] for key, v in points.items()}
-		ax.scatter('k', 'omega', data=data, label=label)
+		ax.scatter('k', 'omega', data=data, label=label, **scatter_kwargs)
