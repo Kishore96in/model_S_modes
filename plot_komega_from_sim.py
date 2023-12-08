@@ -258,6 +258,7 @@ if __name__ == "__main__":
 			model = model,
 			omega_max = omega_max,
 			omega_min = omega_min,
+			k_list = k_list,
 			n_omega = 100,
 			d_omega = 0.1*omega_0,
 			outputfile="komega_from_sim.pickle",
