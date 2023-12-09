@@ -5,6 +5,7 @@ Plot the dispersion relations of all found modes with the background state taken
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import pickle
 
 from bg_from_sim import solar_model_from_sim as solar_model
@@ -67,7 +68,15 @@ if __name__ == "__main__":
 		
 		#Plot some background quantities
 		z = np.linspace(model.z_min, model.z_max, 1000)
-		fig, axs = plt.subplots(nrows=3)
+		
+		fig = plt.figure()
+		gs = mpl.gridspec.GridSpec(2,2, figure=fig)
+		
+		axs = [
+			fig.add_subplot(gs[:,1]),
+			fig.add_subplot(gs[0,0]),
+			fig.add_subplot(gs[1,0]),
+			]
 		
 		axs[0].plot(z, model.N2(z))
 		axs[0].axhline(0, ls=':', c='k')
@@ -82,12 +91,13 @@ if __name__ == "__main__":
 		for ax in axs:
 			ax.set_xlim(model.z_min, model.z_max)
 		
-		for ax in axs[:-1]:
+		for ax in axs[1:-1]:
 			ax.xaxis.set_ticklabels([])
 		
+		axs[0].set_xlabel("$z$")
 		axs[-1].set_xlabel("$z$")
 		
-		fig.set_size_inches(4,5)
+		fig.set_size_inches(6,3)
 		fig.tight_layout()
 		
 		plt.show()
