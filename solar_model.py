@@ -167,6 +167,7 @@ class solar_model():
 		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
 		d.grad_lnc = np.gradient(np.log(d.c), d.z)
 		d.H = 1/( - d.grad_lnrho/2 - d.grad_lnc/2 + d.g/d.c**2 )
+		d.rhoinv_grad_p = np.gradient(d.P, d.z)/d.rho
 		
 		d.grad_lnT = np.gradient(np.log(d.T), d.z)
 		d.grad_entropy = d.CV*d.grad_lnT - (d.P/(d.rho*d.T))*d.grad_lnrho
@@ -179,6 +180,7 @@ class solar_model():
 		self.gradlnc = self.make_spline(d.z, d.grad_lnc)
 		self.N2 = self.make_spline(d.z, d.N2)
 		self.g = self.make_spline(d.z, d.g)
+		self.rhoinv_grad_p = self.make_spline(d.z, d.rhoinv_grad_p)
 		
 		self.z_max = max(d.z)
 		self.z_min = min(d.z)
