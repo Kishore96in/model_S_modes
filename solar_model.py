@@ -164,17 +164,19 @@ class solar_model():
 		d.m = scipy.integrate.cumulative_trapezoid(4*np.pi*d.r**2*d.rho, d.r, initial=0)
 		assert np.all(d.m >= 0)
 		d.g = np.where(d.m != 0, - d.G*d.m/d.r**2, 0)
-		d.H = 1/( - np.gradient(np.log(d.rho), d.z)/2 - np.gradient(np.log(d.c), d.z)/2 + d.g/d.c**2 )
-		# assert np.all(d.H > 0) # NOTE that this is not true with our changed definition of H.
+		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
+		d.grad_lnc = np.gradient(np.log(d.c), d.z)
+		d.H = 1/( - d.grad_lnrho/2 - d.grad_lnc/2 + d.g/d.c**2 )
 		
 		d.grad_lnT = np.gradient(np.log(d.T), d.z)
-		d.grad_lnrho = np.gradient(np.log(d.rho), d.z)
 		d.grad_entropy = d.CV*d.grad_lnT - (d.P/(d.rho*d.T))*d.grad_lnrho
 		d.N2 = - d.g*d.grad_entropy/d.CP
 		
 		d.sort_by(d.z)
 		self.c = self.make_spline(d.z, d.c)
 		self.H = self.make_spline(d.z, d.H)
+		self.gradlnrho = self.make_spline(d.z, d.grad_lnrho)
+		self.gradlnc = self.make_spline(d.z, d.grad_lnc)
 		self.N2 = self.make_spline(d.z, d.N2)
 		self.g = self.make_spline(d.z, d.g)
 		

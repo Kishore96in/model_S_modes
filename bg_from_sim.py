@@ -19,13 +19,17 @@ class solar_model_from_sim(solar_model):
 		z = d['z']
 		g = d['gravz']
 		c = np.sqrt(d['cp']*(d['gamma']-1)*d['TTmz'])
-		H = 1/( - np.gradient(np.log(d['rhomz']), z)/2 - np.gradient(np.log(c), z)/2 + g/c**2 )
+		gradlnrho = np.gradient(np.log(d['rhomz']), z)
+		gradlnc = np.gradient(np.log(c), z)
+		H = 1/( - gradlnrho/2 - gradlnc/2 + g/c**2 )
 		
 		grad_entropy = np.gradient(d['ssmz'], z)
 		N2 = - g*grad_entropy
 		
 		self.c = self.make_spline(z, c)
 		self.H = self.make_spline(z, H)
+		self.gradlnrho = self.make_spline(z, gradlnrho)
+		self.gradlnc = self.make_spline(z, gradlnc)
 		self.N2 = self.make_spline(z, N2)
 		self.g = self.make_spline(z, np.full_like(z, g))
 		
