@@ -73,7 +73,7 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 	
 	return np.array([
 		y2_bot,
-		omega*y1_top + (g_top/c_top)*y2_top,
+		omega*y1_top - (g_top/c_top)*y2_top,
 		y3_bot,
 		y3_top - np.sign(np.real(omega)),
 		])
