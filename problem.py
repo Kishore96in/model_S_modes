@@ -227,6 +227,7 @@ if __name__ == "__main__":
 	ax.plot(z, np.imag(ipbr), label=r"$\mathrm{im}\left( ip/\sqrt{\rho_0} \right)$")
 	ax.set_xlim(z_bot, z_top)
 	ax.axhline(0, ls=':', c='k')
+	ax.axvline(0, ls=':', c='k')
 	ax.set_xlabel("$z$")
 	
 	ax.legend()
