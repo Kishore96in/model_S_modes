@@ -20,3 +20,15 @@ Birch, Kosovichev, Duvall 2004 - Sensitivity of Acoustic Wave Travel Times to So
 
 [SchCamGiz11]
 Schunker, Cameron, Gizon, Moradi 2011 - Constructing and Characterising Solar Structure Models for Computational Helioseismology
+
+# Software versions
+
+Tested with
+
+* Python 3.11.6
+
+* Scipy 1.11.4
+
+* Numpy 1.26.2
+
+* Matplotlib 3.8.1
