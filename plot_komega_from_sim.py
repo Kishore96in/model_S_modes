@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import pickle
 
 from bg_from_sim import solar_model_from_sim as solar_model
-from problem_BKD04 import rhs, bc_imp_both
+from problem_BKD04 import bc_imp_both
+from problem import rhs
 from komega import construct_komega, plot_komega
 
 if __name__ == "__main__":
