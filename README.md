@@ -8,9 +8,9 @@ Compute eigenfunctions and eigenfrequencies of the linearized perturbation equat
 
 1. `plot_komega_from_sim.py`: construct and plot a k-omega diagram using the background state from a simulation of convection.
 
-1. `plot_mode_from_sim.py`: find an plot a single eigenfunction using the background from a simulation of convection. Initial guess for the eigenfunction and eigenfrequency should be changed by modifying the script.
+1. `plot_mode_from_sim.py`: find and plot a single eigenfunction using the background from a simulation of convection. Initial guess for the eigenfunction and eigenfrequency should be changed by modifying the script.
 
-1. `problem.py`: find an plot a single eigenfunction using Solar Model S as the background state. Initial guess for the eigenfunction and eigenfrequency should be changed by modifying the script.
+1. `problem.py`: find and plot a single eigenfunction using Solar Model S as the background state. Initial guess for the eigenfunction and eigenfrequency should be changed by modifying the script.
 
 
 # References:
