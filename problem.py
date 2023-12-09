@@ -83,11 +83,11 @@ if __name__ == "__main__":
 	z_bot = -25
 	z_top = 0.45
 	k = 0.5
-	omega_guess = 1.87e-2
+	omega_guess = 1.83e-2
 	
 	z_guess = np.linspace(z_bot, z_top, 50)
 	
-	y_guess = make_guess_pmode(z_guess, n=1)
+	y_guess = make_guess_pmode(z_guess, n=2)
 	
 	p_guess = np.array([omega_guess])
 	
