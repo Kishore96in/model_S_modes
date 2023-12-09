@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 from solar_model import solar_model
 from solar_model import read_extensive_model_MmKS as reader
-from problem_BKD04 import bc, make_guess_pmode, count_zero_crossings
+from problem_BKD04 import make_guess_pmode, count_zero_crossings
 
 def rhs(z, y, p, k, model):
 	"""
@@ -50,6 +50,32 @@ def rhs(z, y, p, k, model):
 	dydz[2] = np.abs(y2)**2/c
 	
 	return dydz
+
+def bc(y_bot, y_top, p, k, model, z_bot, z_top):
+	"""
+	Top is a free surface (zero Lagrangian pressure perturbation), while the bottom is impenetrable.
+	
+	Arguments:
+		y_bot, y_top, p: see scipy.integrate.solve_bvp
+		k: horizontal wavenumber
+		model: instance of solar_model
+	"""
+	y1_bot, y2_bot, y3_bot = y_bot
+	y1_top, y2_top, y3_top = y_top
+	
+	assert len(p) == 1
+	omega = p[0]
+	
+	c_top = model.c(z_top)
+	rhoinv_grad_p_top = model.rhoinv_grad_p(z_top)
+	g_top = model.g(z_top)
+	
+	return np.array([
+		y2_bot,
+		omega*y1_top - (y2_top/c_top)*rhoinv_grad_p_top,
+		y3_bot,
+		y3_top - np.sign(np.real(omega)),
+		])
 
 if __name__ == "__main__":
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
