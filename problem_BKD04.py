@@ -184,12 +184,12 @@ def count_zero_crossings(arr, z_max=None, z=None):
 if __name__ == "__main__":
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	
-	z_bot = -200
+	z_bot = -25
 	z_top = 0.45
-	k = 1
-	omega_guess = 1e-2
+	k = 0.5
+	omega_guess = 1.87e-2
 	
-	z_guess = np.linspace(z_bot, z_top, 400)
+	z_guess = np.linspace(z_bot, z_top, 50)
 	
 	
 	y_guess = make_guess_pmode(z_guess, n=1)
