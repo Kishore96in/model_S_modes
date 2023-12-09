@@ -191,7 +191,6 @@ if __name__ == "__main__":
 	
 	z_guess = np.linspace(z_bot, z_top, 50)
 	
-	
 	y_guess = make_guess_pmode(z_guess, n=1)
 	
 	p_guess = np.array([omega_guess])
