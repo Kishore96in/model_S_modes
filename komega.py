@@ -5,7 +5,7 @@ import scipy.integrate
 import pickle
 import multiprocessing
 
-from problem import count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
+from problem_BKD04 import count_zero_crossings, make_guess_pmode, make_guess_fmode_from_k
 
 def find_mode(omega_guess, k, model, z_guess, guesser, rhs, bc):
 	y_guess = guesser(z_guess)

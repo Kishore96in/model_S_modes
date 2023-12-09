@@ -9,7 +9,7 @@ import pickle
 
 from solar_model import solar_model, read_extensive_model_MmKS as reader
 from komega import construct_komega, plot_komega
-from problem import rhs, bc
+from problem_BKD04 import rhs, bc
 
 if __name__ == "__main__":
 	plot = True

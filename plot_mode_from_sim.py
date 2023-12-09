@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import scipy.integrate
 
 from bg_from_sim import solar_model_from_sim as solar_model
-from problem import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode
+from problem_BKD04 import rhs, bc_imp_both as bc, count_zero_crossings, make_guess_pmode
 
 if __name__ == "__main__":
 	model = solar_model("data/background_from_simulation/background_a6.0l.1.pickle")
