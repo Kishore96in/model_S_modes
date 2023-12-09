@@ -49,8 +49,8 @@ if __name__ == "__main__":
 		omega_0 = np.abs(model.g(0))/model.c(0)
 		
 		fig,ax = plt.subplots()
-		plot_komega(cachefile, k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3)
-		l = ax.legend(loc=(0.8,0.15))
+		plot_komega(cachefile, k_scl=L_0, omega_scl=1/omega_0, ax=ax, n_max=3, scatter_kwargs={'s': 3**2})
+		l = ax.legend(loc='lower right')
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$\widetilde{k}$")
 		ax.set_ylabel(r"$\widetilde{\omega}$")
@@ -62,6 +62,8 @@ if __name__ == "__main__":
 		om = model.c(z_bot)*k
 		ax.plot(k*L_0, om/omega_0, ls='--', c='k')
 		
+		fig.set_size_inches(4,3.5)
+		fig.tight_layout()
 		fig.tight_layout()
 		
 		plt.show()
