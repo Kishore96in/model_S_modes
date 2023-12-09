@@ -192,7 +192,7 @@ if __name__ == "__main__":
 	z_guess = np.linspace(z_bot, z_top, 400)
 	
 	
-	y_guess, _ = make_guess_pmode(z_guess, k=k, n=0, model=model)
+	y_guess = make_guess_pmode(z_guess, n=1)
 	
 	p_guess = np.array([omega_guess])
 	
