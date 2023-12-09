@@ -64,6 +64,30 @@ if __name__ == "__main__":
 		
 		fig.set_size_inches(4,3.5)
 		fig.tight_layout()
+		
+		#Plot some background quantities
+		z = np.linspace(model.z_min, model.z_max, 1000)
+		fig, axs = plt.subplots(nrows=3)
+		
+		axs[0].plot(z, model.N2(z))
+		axs[0].axhline(0, ls=':', c='k')
+		axs[0].set_ylabel("$N^2$")
+		
+		axs[1].plot(z, model.c(z))
+		axs[1].set_ylabel("$c$")
+		
+		axs[2].plot(z, -1/model.gradlnrho(z))
+		axs[2].set_ylabel(r"$H_\rho$")
+		
+		for ax in axs:
+			ax.set_xlim(model.z_min, model.z_max)
+		
+		for ax in axs[:-1]:
+			ax.xaxis.set_ticklabels([])
+		
+		axs[-1].set_xlabel("$z$")
+		
+		fig.set_size_inches(4,5)
 		fig.tight_layout()
 		
 		plt.show()
