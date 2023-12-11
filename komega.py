@@ -115,6 +115,7 @@ def construct_komega(
 	z_top = None,
 	nz = 10,
 	n_workers=1,
+	discard_extra = False,
 	):
 	"""
 	Construct the k-omega diagram for a specified background and store it in a pickle file.
@@ -133,6 +134,7 @@ def construct_komega(
 		z_bot: float: position of the bottom of the domain.
 		z_top: float: position of the top of the domain.
 		nz: int. Minimum number of grid points to use for the initial grid passed to solve_bvp.
+		discard_extra: bool. Whether to save solutions whose eigenfrequencies are outside the specified bounds (omega_min, omega_max).
 	"""
 	if n_workers > len(k_list):
 		warnings.warn(f"More workers ({n_workers}). Than the number of values of k ({len(k_list)}). Some of them will remain idle.", )
@@ -160,6 +162,10 @@ def construct_komega(
 			solutions[k] = pool.apply_async(get_modes_at_k, args=(k,), kwds=kwds)
 		
 		solutions = {k: v.get() for k, v in solutions.items()}
+	
+	if discard_extra:
+		for k in solutions.keys():
+			solutions[k] = [s for s in solutions[k] if omega_min<=s['omega']<omega_max]
 	
 	ret = {
 		'solutions': solutions,
