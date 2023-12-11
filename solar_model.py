@@ -181,6 +181,7 @@ class solar_model():
 		self.N2 = self.make_spline(d.z, d.N2)
 		self.g = self.make_spline(d.z, d.g)
 		self.rhoinv_grad_p = self.make_spline(d.z, d.rhoinv_grad_p)
+		self.rho = self.make_spline(d.z, d.rho)
 		
 		self.z_max = max(d.z)
 		self.z_min = min(d.z)
