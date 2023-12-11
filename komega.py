@@ -180,6 +180,7 @@ def construct_komega(
 		'omega_min': omega_min,
 		'n_omega': n_omega,
 		'd_omega': d_omega,
+		'discard_extra': discard_extra,
 		}
 	
 	with open(outputfile, 'wb') as f:
