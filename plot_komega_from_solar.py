@@ -45,8 +45,8 @@ if __name__ == "__main__":
 		omega_max = ret['omega_max']
 		
 		fig,ax = plt.subplots()
-		plot_komega(cachefile, n_max=5, ax=ax)
-		l = ax.legend()
+		plot_komega(cachefile, n_max=5, ax=ax, scatter_kwargs={'s': 3**2})
+		l = ax.legend(loc='lower right')
 		l.set_title("Nodes")
 		ax.set_xlabel(r"$k$")
 		ax.set_ylabel(r"$\omega$")
