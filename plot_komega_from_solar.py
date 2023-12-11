@@ -65,6 +65,7 @@ if __name__ == "__main__":
 		om = np.sqrt(np.abs(model.g(z_top))*k)
 		ax.plot(k, om, ls='-', c='k')
 		
+		fig.set_size_inches(4,3.5)
 		fig.tight_layout()
 		
 		plt.show()
