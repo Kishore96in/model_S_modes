@@ -141,6 +141,7 @@ if __name__ == "__main__":
 		ax.xaxis.set_ticklabels([])
 	
 	axs[-1].set_xlabel("$z$")
+	fig.suptitle(f"$\omega = ${np.real_if_close(sol.p[0]) :.2e}, $k = ${k:.2e}")
 	
 	fig.set_size_inches(5,7)
 	fig.tight_layout()
