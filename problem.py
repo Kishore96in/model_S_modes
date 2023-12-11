@@ -109,22 +109,40 @@ if __name__ == "__main__":
 		warnings.warn(f"Solver failed for {k = }. {sol.message}", RuntimeWarning)
 	
 	z = np.linspace(z_bot, z_top, int(1e4))
-	ruz = sol.sol(z)[1]/np.sqrt(model.c(z))
-	ipbr = sol.sol(z)[0]*np.sqrt(model.c(z))
+	y1 = sol.sol(z)[0]
+	y2 = sol.sol(z)[1]
+	
+	uz = y2/np.sqrt(model.c(z)*model.rho(z))
+	ipbrc = y1/np.sqrt(model.c(z)*model.rho(z))
 	
 	print(rf"Found $\omega$ = {np.real_if_close(sol.p[0]) :.2e}")
-	print(f"Number of zero crossings of re(u√ρ₀) in the interior of the domain: {count_zero_crossings(np.real(ruz))}")
+	print(f"Number of zero crossings of re(u√(cρ₀)) in the interior of the domain: {count_zero_crossings(np.real(y2))}")
 	
-	fig,ax = plt.subplots()
-	ax.plot(z, np.real(ruz), label=r"$\mathrm{re}\left( u_z \sqrt{\rho_0} \right)$")
-	ax.plot(z, np.imag(ruz), label=r"$\mathrm{im}\left( u_z \sqrt{\rho_0} \right)$")
-	ax.plot(z, np.real(ipbr), label=r"$\mathrm{re}\left( ip/\sqrt{\rho_0} \right)$")
-	ax.plot(z, np.imag(ipbr), label=r"$\mathrm{im}\left( ip/\sqrt{\rho_0} \right)$")
-	ax.set_xlim(z_bot, z_top)
-	ax.axhline(0, ls=':', c='k')
-	ax.axvline(0, ls=':', c='k')
-	ax.set_xlabel("$z$")
+	fig,axs = plt.subplots(nrows=3)
 	
-	ax.legend()
+	axs[0].plot(z, np.real(y2), label=r"$\mathrm{re}(y_2)$")
+	axs[0].plot(z, np.imag(y2), label=r"$\mathrm{im}(y_2)$")
+	axs[0].plot(z, np.real(y1), label=r"$\mathrm{re}(y_1)$")
+	axs[0].plot(z, np.imag(y1), label=r"$\mathrm{im}(y_1)$")
+	axs[0].legend()
+	
+	axs[1].plot(z, np.real(uz*np.sqrt(model.rho(z))))
+	axs[1].set_ylabel(r"$u_z \sqrt{\rho_0}$")
+	
+	axs[2].plot(z, np.real(uz))
+	axs[2].set_ylabel(r"$\mathrm{re}(u_z)$")
+	
+	for ax in axs:
+		ax.set_xlim(z_bot, z_top)
+		ax.axhline(0, ls=':', c='k')
+		ax.axvline(0, ls=':', c='k')
+	
+	for ax in axs[:-1]:
+		ax.xaxis.set_ticklabels([])
+	
+	axs[-1].set_xlabel("$z$")
+	
+	fig.set_size_inches(5,7)
+	fig.tight_layout()
 	
 	plt.show()
