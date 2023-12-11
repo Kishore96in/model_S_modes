@@ -41,6 +41,9 @@ if __name__ == "__main__":
 		with open(cachefile, 'rb') as f:
 			ret = pickle.load(f)
 		
+		model = ret['model']
+		z_bot = ret['z_bot']
+		z_top = ret['z_top']
 		k_max = max(ret['k_list'])
 		omega_max = ret['omega_max']
 		
@@ -52,6 +55,15 @@ if __name__ == "__main__":
 		ax.set_ylabel(r"$\omega$")
 		ax.set_xlim(0, k_max)
 		ax.set_ylim(bottom=0, top=omega_max)
+		
+		# The location where the modes are expected to change order
+		k = np.linspace(0, k_max, 1000)
+		om = model.c(z_bot)*k
+		ax.plot(k, om, ls='--', c='k')
+		
+		# The theoretical f mode
+		om = np.sqrt(np.abs(model.g(z_top))*k)
+		ax.plot(k, om, ls='-', c='k')
 		
 		fig.tight_layout()
 		
