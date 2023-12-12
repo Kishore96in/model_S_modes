@@ -201,6 +201,16 @@ class ax_wrapper():
 		omega = omega*self.__omega_scl
 		return self.__ax.plot(k, omega, *args, **kwargs)
 	
+	def set_xlim(self, left=None, right=None, *args, **kwargs):
+		left = left*self.__k_scl
+		right = right*self.__k_scl
+		return self.__ax.set_xlim(left, right, *args, **kwargs)
+	
+	def set_ylim(self, bottom=None, top=None, *args, **kwargs):
+		bottom = bottom*self.__omega_scl
+		top = top*self.__omega_scl
+		return self.__ax.set_ylim(bottom, top, *args, **kwargs)
+	
 	def __getattr__(self, attr):
 		return getattr(self.__ax, attr)
 
