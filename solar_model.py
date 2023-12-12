@@ -210,6 +210,13 @@ class solar_model():
 		
 		self.z_max = max(d.z)
 		self.z_min = min(d.z)
+		
+		#Save the units used by the reader (in case I later want to find out how I generated a particular model instance)
+		self.units = {
+			'lu': d.lu,
+			'mu': d.mu,
+			'tu': d.tu,
+			}
 	
 	def make_spline(self, x, y):
 		"""
