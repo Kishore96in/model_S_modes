@@ -126,18 +126,18 @@ class read_extensive_model(model_reader):
 		
 		self.gunits = {
 			#Multiplicative unit conversion factors for the global variables
-			'R_sun': lu, #Mm
+			'R_sun': lu, #cm
 			}
 		
 		self.vunits = {
 			#Multiplicative unit conversion factors for the mesh variables
-			'r': lu, #Mm
+			'r': lu, #cm
 			'T': 1, #K
-			'P': mu * lu**(-1) * tu**(-2), #kg Mm^{-1} s^{-2}
-			'rho': mu * lu**(-3), #kg Mm^{-3}
+			'P': mu * lu**(-1) * tu**(-2), #g cm^{-1} s^{-2}
+			'rho': mu * lu**(-3), #g cm^{-3}
 			'Gamma_1': 1, #dimensionless
 			'delta': 1, #dimensionless
-			'CP': lu**2 * tu**(-2), #Mm^{2} K^{-1} s^{-2}
+			'CP': lu**2 * tu**(-2), #cm^{2} K^{-1} s^{-2}
 			}
 		
 		self.G = self.G_cgs * lu**3 * mu**(-1) * tu**(-2)
