@@ -50,8 +50,8 @@ if __name__ == "__main__":
 		plot_komega(cachefile, n_max=5, ax=ax, scatter_kwargs={'s': 3**2})
 		l = ax.legend(loc='lower right')
 		l.set_title("Nodes")
-		ax.set_xlabel(r"$k$")
-		ax.set_ylabel(r"$\omega$")
+		ax.set_xlabel(r"$k$ (Mm$^{-1}$)")
+		ax.set_ylabel(r"$\omega$ (Hz)")
 		ax.set_xlim(0, k_max)
 		ax.set_ylim(bottom=0, top=omega_max)
 		
