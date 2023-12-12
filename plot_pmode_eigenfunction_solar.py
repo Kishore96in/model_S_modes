@@ -24,6 +24,9 @@ if __name__ == "__main__":
 	omega_guess_list = [2.85e-3, 3e-3, 3.2e-3, 5e-3]
 	k_list = [5e-3, 6.2e-3, 7e-3, 2.1e-2]
 	
+	omega_scl = 1e3 #to convert omega to mHz
+	k_scl = 6.959906258e2 #R_sun for scaling k
+	
 	c_bot = model.c(z_bot)
 	print(f"omega - c_bot*k: {[om - c_bot*k for om, k in zip(omega_guess_list, k_list)]}") #debug
 	
@@ -68,17 +71,17 @@ if __name__ == "__main__":
 		axs[i].plot(z, y1, label="$y_1$")
 		axs[i].plot(z, y2, label="$y_2$")
 		
-		axs[i].legend()
 		axs[i].set_xlim(z_bot, z_top)
 		axs[i].axhline(0, ls=':', c='k')
 		
-		axs[i].set_title(rf"$\omega = {form(omega)}$, $k = {form(k)}$")
+		axs[i].set_title(rf"$\omega = {omega*omega_scl:.2f}$, $k R_\odot = {k*k_scl:.2f}$")
 	
 	for ax in axs[:-1]:
 		ax.xaxis.set_ticklabels([])
 	
 	axs[-1].set_xlabel("$z$")
 	
+	fig.legend(*axs[-1].get_legend_handles_labels(), loc='lower left')
 	fig.set_size_inches(4,6)
 	fig.tight_layout()
 	
