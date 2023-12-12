@@ -149,7 +149,7 @@ class read_extensive_model_MmKS(read_extensive_model):
 		'delta': 1, #dimensionless
 		'CP': 1e-8**2, #Mm^{2} K^{-1} s^{-2}
 		}
-		
+	
 	G = 6.67408e-11 * 1e-6**3 #Mm^3 kg^{-1} s^{-2}
 
 class solar_model():
