@@ -54,6 +54,12 @@ class read_extensive_model(model_reader):
 	"""
 	Read the extensive solar model in GONG format, downloaded from <https://users-phys.au.dk/~jcd/solar_models/>.
 	"""
+	
+	#Override lu, tu, and mu in child classes to change the units used.
+	lu = 1 #1 cm in the desired length unit
+	tu = 1 #1 second in the desired time unit
+	mu = 1 #1 gram in the desired mass unit
+	
 	gnames = {
 		#Indices of the global parameters in the file
 		'R_sun': 1,
@@ -70,25 +76,23 @@ class read_extensive_model(model_reader):
 		'CP': 12,
 		}
 	
-	G = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
+	G_cgs = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
 	
 	def __init__(self, filename):
 		glob, var = self.read_extensive_solar_model(filename)
 		
+		self._populate_unit_conversion_factors()
+		
+		#Unit conversion
 		for k in self.gnames.keys():
-			if hasattr(self, 'gunits'):
-				assert k in self.gunits.keys()
-				fac = self.gunits[k]
-			else:
-				fac = 1
+			assert k in self.gunits.keys()
+			fac = self.gunits[k]
 			setattr(self, k, fac*glob[self.gnames[k]])
-			
+		
+		#Unit conversion
 		for k in self.vnames.keys():
-			if hasattr(self, 'vunits'):
-				assert k in self.vunits.keys()
-				fac = self.vunits[k]
-			else:
-				fac = 1
+			assert k in self.vunits.keys()
+			fac = self.vunits[k]
 			setattr(self, k, fac*var[:,self.vnames[k]])
 		
 		self.CV = self.CP**2/( self.P*self.Gamma_1*self.delta**2/(self.rho*self.T) + self.CP )
@@ -129,28 +133,36 @@ class read_extensive_model(model_reader):
 			var.append( list( chain( *( split_to_words(i,word_len) for i in lines[i:i+nlines_each_mesh] ) ) ) )
 		
 		return glob, np.array(var, dtype=float)
+	
+	def _populate_unit_conversion_factors(self):
+		lu = self.lu
+		mu = self.mu
+		tu = self.tu
+		
+		self.gunits = {
+			#Multiplicative unit conversion factors for the global variables
+			'R_sun': lu, #Mm
+			}
+		
+		self.vunits = {
+			#Multiplicative unit conversion factors for the mesh variables
+			'r': lu, #Mm
+			'T': 1, #K
+			'P': mu * lu**(-1) * tu**(-2), #kg Mm^{-1} s^{-2}
+			'rho': mu * lu**(-3), #kg Mm^{-3}
+			'Gamma_1': 1, #dimensionless
+			'delta': 1, #dimensionless
+			'CP': lu**2 * tu**(-2), #Mm^{2} K^{-1} s^{-2}
+			}
+		
+		self.G = self.G_cgs * lu**3 * mu**(-1) * tu**(-2)
 
 class read_extensive_model_MmKS(read_extensive_model):
 	"""
 	Just like read_extensive_model, but changes the length unit to Mm and the mass unit to kilogram (from CGS units).
 	"""
-	gunits = {
-		#Multiplicative unit conversion factors for the global variables
-		'R_sun': 1e-8, #Mm
-		}
-	
-	vunits = {
-		#Multiplicative unit conversion factors for the mesh variables
-		'r': 1e-8, #Mm
-		'T': 1, #K
-		'P': 1e-3 * 1e-8**(-1), #kg Mm^{-1} s^{-2}
-		'rho': 1e-3 * 1e-8**(-3), #kg Mm^{-3}
-		'Gamma_1': 1, #dimensionless
-		'delta': 1, #dimensionless
-		'CP': 1e-8**2, #Mm^{2} K^{-1} s^{-2}
-		}
-	
-	G = 6.67408e-11 * 1e-6**3 #Mm^3 kg^{-1} s^{-2}
+	lu = 1e-8
+	mu = 1e-3
 
 class read_extensive_model_RsunKms(read_extensive_model):
 	"""
@@ -159,25 +171,6 @@ class read_extensive_model_RsunKms(read_extensive_model):
 	lu = 1/6.959906258e10 #cm in R_sun, as provided in Solar Model S
 	tu = 1e3 #s in ms
 	mu = 1e-3 #g in kg
-	
-	gunits = {
-		#Multiplicative unit conversion factors for the global variables
-		'R_sun': lu, #Mm
-		}
-	
-	vunits = {
-		#Multiplicative unit conversion factors for the mesh variables
-		'r': lu, #Mm
-		'T': 1, #K
-		'P': mu * lu**(-1) * tu**(-2), #kg Mm^{-1} s^{-2}
-		'rho': mu * lu**(-3), #kg Mm^{-3}
-		'Gamma_1': 1, #dimensionless
-		'delta': 1, #dimensionless
-		'CP': lu**2 * tu**(-2), #Mm^{2} K^{-1} s^{-2}
-		}
-	
-	G_cgs = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
-	G = G_cgs * lu**3 * mu**(-1) * tu**(-2)
 
 class solar_model():
 	"""
