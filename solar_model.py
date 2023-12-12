@@ -117,6 +117,9 @@ class read_extensive_model(model_reader):
 		return glob, np.array(var, dtype=float)
 	
 	def _populate_unit_conversion_factors(self):
+		"""
+		Information on the dimensions of various physical quantities.
+		"""
 		lu = self.lu
 		mu = self.mu
 		tu = self.tu
