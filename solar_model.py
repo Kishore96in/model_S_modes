@@ -60,24 +60,6 @@ class read_extensive_model(model_reader):
 	tu = 1 #1 second in the desired time unit
 	mu = 1 #1 gram in the desired mass unit
 	
-	gnames = {
-		#Indices of the global parameters in the file
-		'R_sun': 1,
-		}
-	
-	vnames = {
-		#Indices of the model variables at each mesh point
-		'r': 0,
-		'T': 2,
-		'P': 3,
-		'rho': 4,
-		'Gamma_1': 9,
-		'delta': 11,
-		'CP': 12,
-		}
-	
-	G_cgs = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
-	
 	def __init__(self, filename):
 		glob, var = self.read_extensive_solar_model(filename)
 		
@@ -156,6 +138,26 @@ class read_extensive_model(model_reader):
 			}
 		
 		self.G = self.G_cgs * lu**3 * mu**(-1) * tu**(-2)
+	
+	#Class variables
+	gnames = {
+		#Indices of the global parameters in the file
+		'R_sun': 1,
+		#TODO: note that there is some other stuff (ignored for now) that may be useful to set the boundary conditions.
+		}
+	
+	vnames = {
+		#Indices of the model variables at each mesh point
+		'r': 0,
+		'T': 2,
+		'P': 3,
+		'rho': 4,
+		'Gamma_1': 9,
+		'delta': 11,
+		'CP': 12,
+		}
+	
+	G_cgs = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
 
 class read_extensive_model_MmKS(read_extensive_model):
 	"""
