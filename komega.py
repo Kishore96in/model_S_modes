@@ -187,6 +187,23 @@ def construct_komega(
 	with open(outputfile, 'wb') as f:
 		pickle.dump(ret, f)
 
+class ax_wrapper():
+	"""
+	Wrapper around matplotlib.axes._axes.Axes that scales the data before plotting it.
+	"""
+	def __init__(self, ax, k_scl, omega_scl):
+		self.__ax = ax
+		self.__k_scl = k_scl
+		self.__omega_scl = omega_scl
+	
+	def plot(self, k, omega, *args, **kwargs):
+		k = k*self.__k_scl
+		omega = omega*self.__omega_scl
+		return self.__ax.plot(k, omega, *args, **kwargs)
+	
+	def __getattr__(self, attr):
+		return getattr(self.__ax, attr)
+
 def plot_komega(
 	filename,
 	k_scl=1,
@@ -245,3 +262,5 @@ def plot_komega(
 		inds = (n_ceil == n)
 		data = {key: v[inds] for key, v in points.items()}
 		ax.scatter('k', 'omega', data=data, label=label, **scatter_kwargs)
+	
+	return ax_wrapper(ax, k_scl=k_scl, omega_scl=omega_scl)
