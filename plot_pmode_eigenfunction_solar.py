@@ -21,11 +21,18 @@ if __name__ == "__main__":
 	d_omega = 5e-4
 	n_guess = 2
 	
-	omega_guess_list = [2.85e-3, 3e-3, 3.2e-3, 5e-3]
-	k_list = [5e-3, 6.2e-3, 7e-3, 2.1e-2]
+	guesses = [
+		#list of tuples: (omega,k)
+		(2.85e-3, 5e-3),
+		(3e-3, 6.2e-3),
+		(3.2e-3, 7e-3),
+		(5e-3, 2.1e-2),
+		]
 	
 	omega_scl = 1e3 #to convert omega to mHz
 	k_scl = 6.959906258e2 #R_sun for scaling k
+	
+	omega_guess_list, k_list = zip(*guesses)
 	
 	c_bot = model.c(z_bot)
 	print(f"omega - c_bot*k: {[om - c_bot*k for om, k in zip(omega_guess_list, k_list)]}") #debug
