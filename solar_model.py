@@ -152,6 +152,33 @@ class read_extensive_model_MmKS(read_extensive_model):
 	
 	G = 6.67408e-11 * 1e-6**3 #Mm^3 kg^{-1} s^{-2}
 
+class read_extensive_model_RsunKms(read_extensive_model):
+	"""
+	Just like read_extensive_model, but changes the length unit to R_sun, the mass unit to kilogram, and the time unit to milliseconds (from CGS units).
+	"""
+	lu = 1/6.959906258e10 #cm in R_sun, as provided in Solar Model S
+	tu = 1e3 #s in ms
+	mu = 1e-3 #g in kg
+	
+	gunits = {
+		#Multiplicative unit conversion factors for the global variables
+		'R_sun': lu, #Mm
+		}
+	
+	vunits = {
+		#Multiplicative unit conversion factors for the mesh variables
+		'r': lu, #Mm
+		'T': 1, #K
+		'P': mu * lu**(-1) * tu**(-2), #kg Mm^{-1} s^{-2}
+		'rho': mu * lu**(-3), #kg Mm^{-3}
+		'Gamma_1': 1, #dimensionless
+		'delta': 1, #dimensionless
+		'CP': lu**2 * tu**(-2), #Mm^{2} K^{-1} s^{-2}
+		}
+	
+	G_cgs = 6.67408e-11 * 1e2**3 * 1e-3 #cm^3 g^{-1} s^{-2}
+	G = G_cgs * lu**3 * mu**(-1) * tu**(-2)
+
 class solar_model():
 	"""
 	Read a solar model and calculate the quantities that appear in the linearized modal equations.
