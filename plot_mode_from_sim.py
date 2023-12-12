@@ -8,8 +8,10 @@ import matplotlib.pyplot as plt
 import scipy.integrate
 
 from bg_from_sim import solar_model_from_sim as solar_model
-from problem_BKD04 import bc_imp_both as bc, count_zero_crossings, make_guess_pmode
+from problem_BKD04 import bc_imp_both as bc
+from guess import make_guess_pmode, make_guess_fmode_from_k
 from problem import rhs
+from utils import count_zero_crossings
 
 if __name__ == "__main__":
 	model = solar_model("data/background_from_simulation/background_a6.0l.1.pickle")
@@ -25,6 +27,7 @@ if __name__ == "__main__":
 	
 	z_guess = np.linspace(z_bot, z_top, 10+2*n_guess)
 	y_guess = make_guess_pmode(z_guess, n=n_guess)
+	# y_guess = make_guess_fmode_from_k(z_guess, k=k, model=model)
 	p_guess = np.array([omega_guess])
 	
 	RHS = lambda z, y, p: rhs(z, y, p, k=k, model=model)

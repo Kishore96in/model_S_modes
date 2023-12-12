@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 
 from solar_model import solar_model
 from solar_model import read_extensive_model_MmKS as reader
+from guess import make_guess_pmode
+from utils import count_zero_crossings
 
 def rhs(z, y, p, k, model):
 	"""
@@ -102,84 +104,6 @@ def bc_imp_both(y_bot, y_top, p, k, model, z_bot, z_top):
 		y3_bot,
 		y3_top - np.sign(np.real(omega)),
 		])
-
-def make_guess_pmode(z_guess, n):
-	"""
-	Generate initial guess to encourage solve_bvp to find the p mode of order n.
-	
-	n: number of radial nodes for the guess (excluding endpoints)
-	"""
-	
-	z_bot = np.min(z_guess)
-	z_top = np.max(z_guess)
-	
-	wave = np.sin((n+1)*np.pi*(z_guess-z_bot)/(z_top-z_bot))
-	return np.array([
-		np.zeros_like(z_guess),
-		wave,
-		np.linspace(0,1,len(z_guess))],
-		dtype=complex,
-		)
-
-def make_guess_fmode(z_guess):
-	"""
-	Generate initial guess to encourage solve_bvp to find the f mode.
-	"""
-	if len(z_guess) < 3:
-		raise ValueError("Length of z_guess should be > 3")
-	
-	y_guess = np.zeros((3,len(z_guess)), dtype=complex)
-	y_guess[2] = np.linspace(0,1,len(z_guess))
-	y_guess[1,-2] = 1
-	return y_guess
-
-
-def make_guess_fmode_from_k(z_guess, k):
-	"""
-	Generate initial guess to encourage solve_bvp to find the f mode.
-	
-	Arguments:
-		z_guess: 1D numpy array. Grid
-		k: float, Wavenumber
-	"""
-	z_top = np.max(z_guess)
-	
-	y_guess = np.zeros((3,len(z_guess)), dtype=complex)
-	y_guess[2] = np.linspace(0,1,len(z_guess))
-	y_guess[1] = np.where(
-		z_guess < 0,
-		np.exp(-np.abs(k*z_guess)),
-		1 - z_guess/z_top,
-		)
-	
-	return y_guess
-
-def count_zero_crossings(arr, z_max=None, z=None):
-	"""
-	Count the number of zero crossings in the array arr. The first and last points are ignored even if the values there are zero.
-	
-	Arguments:
-		arr: 1D numpy array
-		z_max: float, optional. Only count zero crossings below this depth
-		z: 1D numpy array. Only required if z_max is not None. Needs to be the same shape as arr; coordinate values at the corresponding indices.
-	"""
-	if z_max is not None:
-		if z is None:
-			raise ValueError("z must be specified to use z_max")
-		izmax = np.argmin(np.abs(z_max - z))
-		arr = arr[1:izmax]
-	else:
-		arr = arr[1:-1]
-	
-	n = np.sum(np.sign(np.abs(np.diff(np.sign(arr)))))
-	
-	if int(n) != n:
-		raise RuntimeError("Number of zero crossings is not an integer!")
-	
-	if n > 0.1*len(arr):
-		warnings.warn("Number of zero crossings may be affected by Nyquist errors. Try increasing the number of grid points.", RuntimeWarning)
-	
-	return int(n)
 
 if __name__ == "__main__":
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)

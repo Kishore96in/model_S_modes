@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 
 from solar_model import solar_model
 from solar_model import read_extensive_model_MmKS as reader
-from problem_BKD04 import make_guess_pmode, count_zero_crossings
+from guess import make_guess_pmode, make_guess_fmode_from_k
+from utils import count_zero_crossings
 
 def rhs(z, y, p, k, model):
 	"""
