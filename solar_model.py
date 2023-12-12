@@ -55,7 +55,7 @@ class read_extensive_model(model_reader):
 	Read the extensive solar model in GONG format, downloaded from <https://users-phys.au.dk/~jcd/solar_models/>.
 	"""
 	
-	#Override lu, tu, and mu in child classes to change the units used.
+	#Override lu, tu, and mu in subclasses to change the units used.
 	lu = 1 #1 cm in the desired length unit
 	tu = 1 #1 second in the desired time unit
 	mu = 1 #1 gram in the desired mass unit
