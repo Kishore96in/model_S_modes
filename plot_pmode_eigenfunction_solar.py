@@ -92,4 +92,28 @@ if __name__ == "__main__":
 	fig.set_size_inches(4,6)
 	fig.tight_layout()
 	
+	#Plot wrt. k*z.
+	fig, ax = plt.subplots()
+	
+	ax.axhline(0, ls=':', c='k')
+	for i, k in enumerate(k_list):
+		kz = k*z
+		iz0 = np.argmin(np.abs(kz - -0.25))
+		
+		mode = solutions[k]['mode']
+		omega = solutions[k]['omega']
+		
+		y2 = np.real_if_close(mode(z)[1])
+		y2_norm = np.real_if_close(y2/y2[iz0])
+		
+		ax.plot(kz, y2_norm, label=rf"$\omega = {omega*omega_scl:.2f}$, $k R_\odot = {k*k_scl:.2f}$")
+	
+	ax.set_xlim(max(k_list)*z_bot, max(k_list)*z_top)
+	ax.set_xlabel("$k z$")
+	ax.set_ylabel("Normalized $y_2$")
+	ax.legend()
+	
+	fig.set_size_inches(4,3)
+	fig.tight_layout()
+	
 	plt.show()
