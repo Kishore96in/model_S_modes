@@ -173,9 +173,9 @@ class read_extensive_model_RsunKms(read_extensive_model):
 	"""
 	Just like read_extensive_model, but changes the length unit to R_sun, the mass unit to kilogram, and the time unit to milliseconds (from CGS units).
 	"""
-	lu = 1/6.959906258e10 #cm in R_sun, as provided in Solar Model S
-	tu = 1e3 #s in ms
-	mu = 1e-3 #g in kg
+	lu = 1/6.959906258e10
+	tu = 1e3
+	mu = 1e-3
 
 class solar_model():
 	"""
