@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import scipy.integrate
 import pickle
 import multiprocessing
+import time
 
 from guess import make_guess_pmode, make_guess_fmode_from_k
 from utils import count_zero_crossings
@@ -145,6 +146,8 @@ def construct_komega(
 	if z_top is None:
 		z_top = model.z_max
 	
+	t_start = time.time()
+	
 	with multiprocessing.Pool(n_workers) as pool:
 		solutions = {}
 		kwds = {
@@ -182,6 +185,7 @@ def construct_komega(
 		'n_omega': n_omega,
 		'd_omega': d_omega,
 		'discard_extra': discard_extra,
+		'cputime': (time.time() - t_start)*n_workers
 		}
 	
 	with open(outputfile, 'wb') as f:
