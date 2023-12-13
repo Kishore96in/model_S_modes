@@ -10,15 +10,18 @@ from solar_model import solar_model, read_extensive_model_MmKS as reader
 from komega import find_mode
 from guess import make_guess_fmode_from_k
 from problem import rhs, bc
-from utils import count_zero_crossings
+from utils import sci_format, count_zero_crossings
 
 if __name__ == "__main__":
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
+	form = sci_format(precision=2)
 	
 	k_list = [1e-2, 0.1, 1]
 	z_bot = -690
 	z_top = 0.45
 	d_omega = 5e-4
+	
+	k_scl = 6.959906258e2 #R_sun for scaling k
 	
 	z_guess = np.linspace(z_bot, z_top, 2100)
 	
@@ -58,7 +61,7 @@ if __name__ == "__main__":
 		uz = y2/np.sqrt(model.c(z)*model.rho(z))
 		
 		uz_norm = np.real_if_close(uz/uz[iz0])
-		ax.plot(kz, uz_norm, label=rf"${k = }\,\mathrm{{Mm}}^{{-1}}$")
+		ax.plot(kz, uz_norm, label=rf"$k R_\odot = {form(k*k_scl)}$")
 	
 	ax.set_yscale('log')
 	ax.set_xlim(min(kz), max(kz))
