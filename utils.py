@@ -45,3 +45,16 @@ def count_zero_crossings(arr, z_max=None, z=None):
 		warnings.warn("Number of zero crossings may be affected by Nyquist errors. Try increasing the number of grid points.", RuntimeWarning)
 	
 	return int(n)
+
+class ceil_spline():
+	"""
+	Applies a ceiling value to the given spline.
+	"""
+	def __init__(self, spline, ceil):
+		self.spline = spline
+		self.ceil = ceil
+	
+	def __call__(self, z):
+		spline = self.spline(z)
+		ceil = np.full_like(spline, self.ceil)
+		return np.where(spline > ceil, ceil, spline)

@@ -10,19 +10,7 @@ import pickle
 from solar_model import solar_model, read_extensive_model_MmKS as reader
 from komega import construct_komega, plot_komega
 from problem import rhs, bc
-
-class ceil_spline():
-	"""
-	Applies a ceiling value to the given spline.
-	"""
-	def __init__(self, spline, ceil):
-		self.spline = spline
-		self.ceil = ceil
-	
-	def __call__(self, z):
-		spline = self.spline(z)
-		ceil = np.full_like(spline, self.ceil)
-		return np.where(spline > ceil, ceil, spline)
+from utils import ceil_spline
 
 if __name__ == "__main__":
 	plot = True
