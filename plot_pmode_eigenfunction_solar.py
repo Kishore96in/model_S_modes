@@ -24,7 +24,7 @@ if __name__ == "__main__":
 	guesses = [
 		#list of tuples: (omega,k)
 		(2.85e-3, 5e-3),
-		(3e-3, 6.2e-3),
+		# (3e-3, 6.2e-3),
 		(3.2e-3, 7e-3),
 		(5e-3, 2.1e-2),
 		]
