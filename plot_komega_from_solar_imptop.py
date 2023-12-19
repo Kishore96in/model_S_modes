@@ -24,7 +24,7 @@ if __name__ == "__main__":
 			rhs = rhs,
 			bc = bc,
 			z_bot = -690,
-			z_top = 0,
+			z_top = 0.45,
 			k_list = np.linspace(0,0.025,35),
 			omega_max = 7e-3,
 			omega_min = 1e-3,
