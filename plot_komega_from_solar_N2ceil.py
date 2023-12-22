@@ -19,7 +19,7 @@ if __name__ == "__main__":
 	if not os.path.isfile(cachefile):
 		model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 		
-		model.N2 = ceil_spline(model.N2, ceil=2.5e-7)
+		model.N2 = ceil_spline(model.N2, ceil=0)
 		
 		construct_komega(
 			model = model,
