@@ -58,3 +58,16 @@ class ceil_spline():
 		spline = self.spline(z)
 		ceil = np.full_like(spline, self.ceil)
 		return np.where(spline > ceil, ceil, spline)
+
+def ralign_legend(l):
+	"""
+	Right-align the labels in a legend. Note that this needs to be called after plt.show(block=False) for the figure dpi to be picked up correctly.
+	
+	Taken from https://stackoverflow.com/questions/7936034/text-alignment-in-a-matplotlib-legend/8078114#8078114
+	"""
+	texts = l.get_texts()
+	widths = np.array([t.get_window_extent().width for t in texts])
+	shifts = np.max(widths) - widths
+	for t, shift in zip(texts, shifts):
+		t.set_ha('right')
+		t.set_position((shift,0))
