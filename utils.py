@@ -72,7 +72,7 @@ def ralign_legend(l):
 		t.set_ha('right')
 		t.set_position((shift,0))
 
-def add_arrow(line, position=None, size=15, color=None):
+def add_arrow(line, position=None, size=15):
 	"""
 	Add an arrow to a line. Copied from https://stackoverflow.com/questions/34017866/arrow-on-a-line-plot/34018322#34018322
 	
@@ -80,10 +80,8 @@ def add_arrow(line, position=None, size=15, color=None):
 		line:       Line2D object
 		position:   x-position of the arrow. If None, mean of xdata is taken
 		size:       size of the arrow in fontsize points
-		color:      if None, line color is taken.
 	"""
-	if color is None:
-		color = line.get_color()
+	color = line.get_color()
 
 	xdata = line.get_xdata()
 	ydata = line.get_ydata()
