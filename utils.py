@@ -83,7 +83,6 @@ def add_arrow(line, position=None, size=15):
 		size:       size of the arrow in fontsize points
 	"""
 	color = line.get_color()
-
 	xdata = line.get_xdata()
 	ydata = line.get_ydata()
 
