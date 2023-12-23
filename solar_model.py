@@ -8,6 +8,7 @@ References:
 import numpy as np
 import scipy.integrate
 import scipy.interpolate
+import matplotlib.pyplot as plt
 
 from itertools import chain
 
@@ -249,8 +250,6 @@ def plot(model, var, logy=False, absolute=False):
 	return fig, ax
 
 if __name__ == "__main__":
-	import matplotlib.pyplot as plt
-	
 	# model = solar_model("data/Model S limited/solar_model_S_cptrho.l5bi.d.15c", reader=read_limited_model)
 	# model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=read_extensive_model)
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=read_extensive_model_MmKS)
