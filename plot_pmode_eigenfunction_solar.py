@@ -96,7 +96,7 @@ if __name__ == "__main__":
 	fig, ax = plt.subplots()
 	
 	ax.axhline(0, ls=':', c='k')
-	for i, k in enumerate(k_list):
+	for k in k_list:
 		kz = k*z
 		iz0 = np.argmin(np.abs(kz - -0.25))
 		
