@@ -261,6 +261,6 @@ if __name__ == "__main__":
 	
 	_, ax = plot(model, 'N2')
 	ax.axhline(0, ls=':', c='k')
-	ax.set_ylim(-5e-5, 5e-5)
+	ax.set_ylim(-1e-5, 1e-5)
 	
 	plt.show()
