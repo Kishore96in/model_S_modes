@@ -88,8 +88,8 @@ def add_arrow(line, position=None, size=15):
 
 	if position is None:
 		position = xdata.mean()
-	# find closest index
-	start_ind = np.argmin(np.absolute(xdata - position))
+	
+	start_ind = np.argmin(np.abs(xdata - position))
 	end_ind = start_ind + 1
 
 	line.axes.annotate('',
