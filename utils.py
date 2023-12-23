@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import numbers
 import warnings
 
 class sci_format():
@@ -87,7 +88,13 @@ def add_arrow(line, position=None, size=15):
 	ydata = line.get_ydata()
 
 	if position is None:
-		position = xdata.mean()
+		position = np.average(xdata)
+	elif position == "max":
+		position = np.max(xdata)
+	elif position == "min":
+		position = np.min(xdata)
+	elif not isinstance(position, numbers.Number):
+		raise TypeError(f"Unable to handle `{position}`, of type {type(position)}")
 	
 	start_ind = np.argmin(np.abs(xdata - position))
 	end_ind = start_ind + 1
