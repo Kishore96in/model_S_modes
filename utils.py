@@ -79,7 +79,7 @@ def add_arrow(line, position=None, size=15):
 	
 	Arguments:
 		line:       Line2D object
-		position:   x-position of the arrow.g
+		position:   x-position of the arrow.
 		size:       size of the arrow in fontsize points
 	"""
 	color = line.get_color()
