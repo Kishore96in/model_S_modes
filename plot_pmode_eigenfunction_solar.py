@@ -10,7 +10,7 @@ from solar_model import solar_model, read_extensive_model_MmKS as reader
 from komega import find_mode
 from guess import make_guess_pmode
 from problem import rhs, bc
-from utils import sci_format, count_zero_crossings
+from utils import sci_format, count_zero_crossings, add_arrow
 
 def plot_phase_diagram(mode, z, ax=None, **kwargs):
 	"""
@@ -131,6 +131,24 @@ if __name__ == "__main__":
 	ax.set_xlabel("$k z$")
 	ax.set_ylabel("Normalized $y_2$")
 	ax.legend()
+	
+	fig.set_size_inches(4,3)
+	fig.tight_layout()
+	
+	#phase diagram (Scuflaire-Osaki)
+	fig, ax = plt.subplots()
+	for k in k_list:
+		mode = solutions[k]['mode']
+		line, = plot_phase_diagram(mode, z, ax=ax, label=f"${k*k_scl:.2f}$")
+		add_arrow(line, position=2e-2)
+	
+	ax.set_xlabel("$y_2$")
+	ax.set_ylabel("$y_1$")
+	ax.axhline(0, c='k', ls=':')
+	ax.axvline(0, c='k', ls=':')
+	l = ax.legend()
+	# l = fig.legend(*ax.get_legend_handles_labels(), loc='lower left')
+	l.set_title("$k R_\odot$")
 	
 	fig.set_size_inches(4,3)
 	fig.tight_layout()
