@@ -12,6 +12,25 @@ from guess import make_guess_pmode
 from problem import rhs, bc
 from utils import sci_format, count_zero_crossings
 
+def plot_phase_diagram(mode, z, ax=None, **kwargs):
+	"""
+	Plot the phase diagram described by {Scu74, Osa75} as a way to classify eigenmodes into g-like or p-like.
+	
+	Arguments:
+		mode: spline
+		z: 1D numpy array
+		ax: matplotlib Axes object on which to plot.
+	"""
+	if ax is None:
+		_, ax = plt.subplots()
+	
+	y1 = np.real_if_close(mode(z)[0])
+	y2 = np.real_if_close(mode(z)[1])
+	
+	l = ax.plot(y2, y1, **kwargs)
+	
+	return l
+
 if __name__ == "__main__":
 	model = solar_model("data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	form = sci_format(precision=2)
