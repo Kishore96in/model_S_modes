@@ -218,6 +218,15 @@ class ax_scaler():
 	def __getattr__(self, attr):
 		return getattr(self.__ax, attr)
 
+def scale_axs(axs, k_scl, omega_scl):
+	"""
+	Given a list of Axes (e.g. the output of plt.subplots with nrows*ncols > 1), apply ax_scaler to each Axes object.
+	"""
+	if iterable(axs):
+		return type(a)([scale_axs(ax, k_scl, omega_scl) for ax in axs])
+	else:
+		return ax_scaler(axs, k_scl, omega_scl)
+
 def plot_komega(
 	filename,
 	k_scl=1,
