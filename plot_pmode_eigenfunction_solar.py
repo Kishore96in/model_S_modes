@@ -100,7 +100,7 @@ if __name__ == "__main__":
 		axs[i].set_xlim(z_bot, z_top)
 		axs[i].axhline(0, ls=':', c='k')
 		
-		axs[i].set_title(rf"$\omega = {omega*omega_scl:.2f}$, $k R_\odot = {k*k_scl:.2f}$")
+		axs[i].set_title(rf"$\omega = {omega*omega_scl:.2f}$ mHz, $k R_\odot = {k*k_scl:.2f}$")
 	
 	for ax in axs[:-1]:
 		ax.xaxis.set_ticklabels([])
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 		y2 = np.real_if_close(mode(z)[1])
 		y2_norm = np.real_if_close(y2/y2[iz0])
 		
-		ax.plot(kz, y2_norm, label=rf"$\omega = {omega*omega_scl:.2f}$, $k R_\odot = {k*k_scl:.2f}$")
+		ax.plot(kz, y2_norm, label=rf"$\omega = {omega*omega_scl:.2f}$ mHz, $k R_\odot = {k*k_scl:.2f}$")
 	
 	ax.set_xlim(max(k_list)*z_bot, max(k_list)*z_top)
 	ax.set_xlabel("$k z$")
