@@ -21,7 +21,7 @@ with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
 	modes = []
 	while True:
 		try:
-			cs, ics, y = f.read_record("(38,)<f8", "(24,)<i4", f"(2,{nnw})<f8")
+			cs, ics, y = f.read_record("(38,)<f8", "(24,)<i4", f"({nnw},2)<f8")
 			modes.append(Mode(cs, ics, y))
 		except scipy.io.FortranEOFError:
 			break
