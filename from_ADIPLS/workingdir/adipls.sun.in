@@ -23,9 +23,9 @@ osc:
   el, nsel, els1, dels, dfsig1, dfsig2, nsig1, nsig2
     , 10  , 0   , 1   ,       ,       ,      ,      , @
   itrsig, sig1, istsig, inomde, itrds,
-  1     , 4.0 ,       , 2     , 10   , @
+  1     , 0.1 , 10    , 2     , 10   , @
   dfsig, nsig, iscan, sig2,
-       , 10  , 10   , 2500, @
+  0.001     , 2  , 10   , 1.1 , @
   eltrw1, eltrw2, sgtrw1, sgtrw2
         ,       ,       ,       , @
 
