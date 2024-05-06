@@ -7,8 +7,9 @@ import scipy.io
 import numpy as np
 
 class Mode():
-	def __init__(self, csummm, y):
-		self._csummm = csummm
+	def __init__(self, cs, ics, y):
+		self._cs = cs
+		self._ics = ics[:12]
 		self.y = y
 		
 with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
@@ -20,10 +21,9 @@ with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
 	modes = []
 	while True:
 		try:
-			csummm, y = f.read_record("(50,)<f8", f"(2,{nnw})<f8")
-			modes.append(Mode(csummm, y))
+			cs, ics, y = f.read_record("(38,)<f8", "(24,)<i4", f"(2,{nnw})<f8")
+			modes.append(Mode(cs, ics, y))
 		except scipy.io.FortranEOFError:
-			print("EOF")
 			break
 
 
