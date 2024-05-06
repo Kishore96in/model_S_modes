@@ -21,8 +21,12 @@ class Mode():
 		self.y = y
 		
 		#NOTE: see section 8.2 for the meaning of the various elements of cs and ics
+		R = cs[2]
+		p_c = cs[3]
+		rho_c = cs[4]
 		self.l = int(cs[17])
 		self.n = int(cs[18])
+		sigma2 = cs[19]
 		
 		self.nordp = ics[8]
 		self.nordg = ics[9]
@@ -30,6 +34,7 @@ class Mode():
 		
 		#'Derived' quantities
 		self.n_nodes = self.nordp + self.nordg
+		self.omega = np.sqrt(sigma2*p_c/rho_c)/R
 
 with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
 	nnw, *_ = f.read_record("i4")
