@@ -36,17 +36,22 @@ class Mode():
 		self.n_nodes = self.nordp + self.nordg
 		self.omega = np.sqrt(sigma2*p_c/rho_c)/R
 
-with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
-	nnw, *_ = f.read_record("i4")
+def read_modes(filename):
+	with scipy.io.FortranFile(filename) as f:
+		nnw, *_ = f.read_record("i4")
 
-with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
-	_, x = f.read_record("i4", f"({nnw},)<f8")
+	with scipy.io.FortranFile(filename) as f:
+		_, x = f.read_record("i4", f"({nnw},)<f8")
+		
+		modes = []
+		while True:
+			try:
+				modes.append(Mode(f, nnw))
+			except scipy.io.FortranEOFError:
+				break
+
+	return modes
+
 	
-	modes = []
-	while True:
-		try:
-			modes.append(Mode(f, nnw))
-		except scipy.io.FortranEOFError:
-			break
 
 
