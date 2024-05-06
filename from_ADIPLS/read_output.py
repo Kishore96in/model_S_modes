@@ -52,6 +52,19 @@ def read_modes(filename):
 
 	return modes
 
+if __name__ == "__main__":
+	import matplotlib.pyplot as plt
 	
+	modes = read_modes("amde.l9bi.d.202c.prxt3")
+	
+	#Some sanity checks
+	css = np.array([mode._cs[1:7] for mode in modes])
+	assert np.all(np.equal(css, css[0])) #stellar mass etc should not be mode-dependent.
 
+	#Plot the found modes
+	fig,ax = plt.subplots()
+	ax.scatter([mode.l for mode in modes], [mode.omega*1e3 for mode in modes], s=3**2)
+	ax.set_ylabel(r"$\omega$ (mHz)")
+	ax.set_xlabel(r"$\ell$")
 
+	plt.show()
