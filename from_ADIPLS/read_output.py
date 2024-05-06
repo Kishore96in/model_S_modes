@@ -12,6 +12,18 @@ class Mode():
 		self._ics = ics[:12]
 		self.y = y
 		
+		#NOTE: see section 8.2 for the meaning of the various elements of cs and ics
+		self.l = int(cs[17])
+		self.n = int(cs[18])
+		self.nu = cs[36]
+		
+		self.nordp = ics[8]
+		self.nordg = ics[9]
+		self.m = ics[10]
+		
+		#'Derived' quantities
+		self.n_nodes = self.nordp + self.nordg
+
 with scipy.io.FortranFile("amde.l9bi.d.202c.prxt3") as f:
 	nnw, *_ = f.read_record("i4")
 
