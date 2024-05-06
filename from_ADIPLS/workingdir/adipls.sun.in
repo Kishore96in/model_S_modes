@@ -25,7 +25,7 @@ osc:
   itrsig, sig1, istsig, inomde, itrds,
   1     , 0.1 , 10    , 2     , 10   , @
   dfsig, nsig, iscan, sig2,
-  0.001     , 2  , 10   , 1.1 , @
+       , 2  , 100   , 1.1 , @
   eltrw1, eltrw2, sgtrw1, sgtrw2
         ,       ,       ,       , @
 
