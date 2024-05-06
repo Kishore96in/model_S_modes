@@ -40,3 +40,7 @@ adipls.c.d adipls.sun.in > ttt.adi.sun.out
 
 (or ` cd workingdir && ./run.sh`)
 
+## Output format
+
+See section 8.1 of `notes/adiab.prg.v0_3.pdf` for the format used for the output.
+
