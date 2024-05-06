@@ -23,7 +23,6 @@ class Mode():
 		#NOTE: see section 8.2 for the meaning of the various elements of cs and ics
 		self.l = int(cs[17])
 		self.n = int(cs[18])
-		self.nu = cs[36]
 		
 		self.nordp = ics[8]
 		self.nordg = ics[9]
