@@ -12,3 +12,8 @@ redistrb.cy.d redistrb.sun.prxt3.in > ttt.red.sun.out
 echo ""
 echo "#### adipls.c.d ####"
 adipls.c.d adipls.sun.in > ttt.adi.sun.out
+
+echo ""
+echo "#### Running Python script ####"
+cd ..
+python plot.py
