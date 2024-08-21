@@ -59,12 +59,12 @@ def read_modes(filename):
 			except scipy.io.FortranEOFError:
 				break
 
-	return modes
+	return x, modes
 
 if __name__ == "__main__":
 	import matplotlib.pyplot as plt
 	
-	modes = read_modes("amde.l9bi.d.202c.prxt3")
+	x, modes = read_modes("amde.l9bi.d.202c.prxt3")
 	
 	#Some sanity checks
 	css = np.array([mode._cs[1:7] for mode in modes])
