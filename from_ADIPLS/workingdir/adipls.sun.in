@@ -51,4 +51,4 @@ out:
   irotkr, nprtkr, igm1kr, npgmkr, ispcpr,
   0     ,       ,       ,       ,       , @
   icaswn, sigwn1, sigwn2, frqwn1, frqwn2,iorwn1, iorwn2, frlwn1, frlwn2
-  10010 ,       ,       ,       ,       ,-5000 , 100    ,       ,       , @
+        ,       ,       ,       ,       ,-5000 , 100   ,       ,       , @
