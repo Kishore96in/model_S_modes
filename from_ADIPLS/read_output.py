@@ -26,7 +26,7 @@ class Mode():
 		R = cs[2]
 		p_c = cs[3]
 		rho_c = cs[4]
-		self.l = int(cs[17])
+		self.l = cs[17]
 		self.n = int(cs[18])
 		sigma2 = cs[19]
 		
