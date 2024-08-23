@@ -1,0 +1,11 @@
+axes.formatter.use_mathtext:  True
+axes.formatter.limits: -3,4
+
+figure.constrained_layout.use: True
+figure.figsize: 4,3
+
+#Use Computer Modern font
+font.family: serif
+mathtext.fontset: cm
+font.serif: cmr10
+font.size: 12
