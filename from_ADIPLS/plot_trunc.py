@@ -9,8 +9,14 @@ from solar_model import solar_model, read_extensive_model_MmKS as reader #Just t
 
 if __name__ == "__main__":
 	x, modes = run_and_get_modes("workingdir_trunc")
+	x_hil, modes_hil = run_and_get_modes("workingdir_trunc_hil")
 	
-	n_max = 8
+	if min(x) != min(x_hil):
+		raise RuntimeError
+	
+	modes.extend(modes_hil)
+	
+	n_max = 7
 	
 	for mode in modes:
 		n_this = get_n_nodes(mode)
