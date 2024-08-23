@@ -66,8 +66,8 @@ def get_modes_at_k(
 		d_omega: float: Only consider modes which are further apart than this.
 		rhs: function. Specifies RHS for solve_bvp.
 		bc: function. Specifies boundary conditions for solve_bvp.
-		z_bot: float: position of the bottom of the domain.
-		z_top: float: position of the top of the domain.
+		z_bot: float: position of the bottom of the domain. Set to None to use the minimum z of the provided model.
+		z_top: float: position of the top of the domain. Set to None to use the maximum z of the provided model.
 		nz: int. Minimum number of grid points to use for the initial grid passed to solve_bvp.
 	
 	Returns:
@@ -76,6 +76,10 @@ def get_modes_at_k(
 			'sol': spline describing the eigenfunction
 			'n': int. Number of zero crossings of the real part of u_z below z=0.
 	"""
+	if z_bot is None:
+		z_bot = model.z_min
+	if z_top is None:
+		z_top = model.z_max
 	
 	omega_range = np.linspace(omega_min, omega_max, n_omega)
 	
