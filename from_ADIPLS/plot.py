@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import subprocess
+import os
 
 from read_output import read_modes
 
@@ -16,8 +18,18 @@ def get_n_nodes(mode):
 	# return count_zero_crossings(mode.y[:,0], z_max=1, z=x) # ignore nodes above r=R
 	return count_zero_crossings(mode.y[:,0])
 
+def run_and_get_modes(dirname):
+	# https://stackoverflow.com/questions/7040592/calling-the-source-command-from-subprocess-popen/12708396#12708396
+	pipe = subprocess.Popen(". ./init.sh; env", stdout=subprocess.PIPE, shell=True, text=True)
+	output = pipe.communicate()[0]
+	# print(output) #debug
+	env = dict((line.split("=", 1) for line in output.splitlines()))
+	
+	subprocess.run(["./run.sh"], cwd=dirname, env=env)
+	return read_modes(os.path.join(dirname, "amde.l9bi.d.202c.prxt3"))
+
 if __name__ == "__main__":
-	x, modes = read_modes("workingdir/amde.l9bi.d.202c.prxt3")
+	x, modes = run_and_get_modes("workingdir")
 	# x, modes = read_modes("workingdir_cowling/amde.l9bi.d.202c.prxt3")
 	# x, modes = read_modes("workingdir_trunc/amde.l9bi.d.202c.prxt3")
 	# x, modes = read_modes("workingdir_truncplane/amde.l9bi.d.202c.prxt3")
