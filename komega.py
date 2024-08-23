@@ -1,3 +1,13 @@
+"""
+Algorithm:
+1. Choose a value of k
+2. Choose the lowest possible value of omega and set n_guess=0
+3. If omega < sqrt(g_min*k), use make_guess_fmode_with_omega; else, use make_guess_pmode with n_guess nodes.
+4. If a mode is found and it its omega is close to the chosen value of omega, accept it (save for later)
+5. Set n_guess to the number of radial nodes (below z=0, excluding z=z_bot) of the last accepted solution
+5. Choose the larger among (the next lowest value of omega, the omega of the last accepted solution). If omega>omega_max, choose the next value of k and go to step 2. Else, go to step 3.
+"""
+
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
