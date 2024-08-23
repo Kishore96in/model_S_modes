@@ -15,6 +15,7 @@ rm agsm.l9bi.d.202c.prxt3
 rm amde.l9bi.d.202c.prxt3
 
 #Other magically generated stuff
+rm fort.1
 rm fort.9
 rm fort.99
 rm ttt.adimesh
