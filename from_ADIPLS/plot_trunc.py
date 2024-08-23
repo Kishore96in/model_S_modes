@@ -16,8 +16,6 @@ if __name__ == "__main__":
 	if min(x) != min(x_hil):
 		raise RuntimeError
 	
-	# modes.extend(modes_hil)
-	
 	n_max = 7
 	
 	for mode in itertools.chain(modes, modes_hil):
