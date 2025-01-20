@@ -22,10 +22,9 @@ def run_and_get_modes(dirname):
 	# https://stackoverflow.com/questions/7040592/calling-the-source-command-from-subprocess-popen/12708396#12708396
 	pipe = subprocess.Popen(". ./init.sh; env", stdout=subprocess.PIPE, shell=True, text=True)
 	output = pipe.communicate()[0]
-	# print(output) #debug
 	env = dict((line.split("=", 1) for line in output.splitlines()))
 	
-	subprocess.run(["./run.sh"], cwd=dirname, env=env)
+	subprocess.run(["make"], cwd=dirname, env=env)
 	return read_modes(os.path.join(dirname, "amde.l9bi.d.202c.prxt3"))
 
 if __name__ == "__main__":

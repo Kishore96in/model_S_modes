@@ -40,7 +40,7 @@ redistrb.cy.d redistrb.sun.prxt3.in > ttt.red.sun.out
 adipls.c.d adipls.sun.in > ttt.adi.sun.out
 ```
 
-(or ` cd workingdir && ./run.sh`)
+(or ` cd workingdir && make`)
 
 ### Input file format (adipls.sun.in)
 
