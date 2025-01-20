@@ -29,9 +29,9 @@ def run_and_get_modes(dirname):
 
 if __name__ == "__main__":
 	x, modes = run_and_get_modes("workingdir")
-	# x, modes = read_modes("workingdir_cowling/amde.l9bi.d.202c.prxt3")
-	# x, modes = read_modes("workingdir_trunc/amde.l9bi.d.202c.prxt3")
-	# x, modes = read_modes("workingdir_truncplane/amde.l9bi.d.202c.prxt3")
+	# x, modes = run_and_get_modes("workingdir_cowling")
+	# x, modes = run_and_get_modes("workingdir_trunc")
+	# x, modes = run_and_get_modes("workingdir_truncplane")
 	
 	n_max = 8
 	
