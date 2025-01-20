@@ -20,8 +20,8 @@ mod:
         ,       ,       , @
 
 osc:
-  el, nsel, els1, dels, dfsig1, dfsig2, nsig1, nsig2
-    , 41  , 0   , 0.25   ,       ,       ,      ,      , @
+  el, nsel, els1, dels  , dfsig1, dfsig2, nsig1, nsig2
+    , 81  , 0   , 0.125 ,       ,       ,      ,      , @
   itrsig, sig1, istsig, inomde, itrds,
   1     , 0.16 , 10    , 2     , 10   , @
   dfsig, nsig, iscan, sig2,
