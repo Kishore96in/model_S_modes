@@ -31,6 +31,8 @@ export aprgdir="$ADIPLS_LOCATION"
 
 ## Running a solar model
 
+### Commands
+
 ```bash
 cd test_cases
 form-amdl.d 2 famdl.l9bi.d.202c amdl.l9bi.d.202c
@@ -40,7 +42,15 @@ adipls.c.d adipls.sun.in > ttt.adi.sun.out
 
 (or ` cd workingdir && ./run.sh`)
 
+### Input file format (adipls.sun.in)
+
+Note that according to section 7.2.1 of `notes/adiab.prg.v0_3.pdf`, only lines ending with `@` are read.
+
+Some quick notes:
+- To get all the eigenfunctions in a range of frequencies, one should additionally set `itrsig/=1`, and set the variables `sig1`, `sig2`, and `iscan`.
+
 ## Output format
 
 See section 8.1 of `notes/adiab.prg.v0_3.pdf` for the format used for the output.
 
+To read the eigenfunction output into Python, use the function `read_modes` from `read_output.py`
