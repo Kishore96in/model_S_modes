@@ -47,6 +47,8 @@ if __name__ == "__main__":
 	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in modes]))
 	
 	fig,ax = plt.subplots()
+	ax.set_ymargin(0)
+	
 	for n in n_uniq:
 		if n == n_max:
 			label = rf"$\geq{n}$"
