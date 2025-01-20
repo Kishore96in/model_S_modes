@@ -1,0 +1,54 @@
+2  'amdl.l9bi.d.202c.prxt3' @
+9  'ttt/ttt.adipls.prt' @
+11 'agsm.l9bi.d.202c.prxt3' @
+4 'amde.l9bi.d.202c.prxt3' @
+15 '0' @
+16 'ttt/ttt.adipls.fsm' @
+-1 '' @
+
+cntrd:
+dsn.mod.osc.cst.int.out @
+
+dsn:
+  idsgsm, idsssm, idsefn, idsrkr, idsgkr, idslog?
+        ,       ,       , 0     ,       ,       , @
+
+mod:
+  ifind, xmod, imlds, in, nprmod,
+       ,     ,      ,   ,       , @
+  ntrnct, ntrnsf, imdmod,
+        ,       ,       , @
+
+osc:
+  el, nsel, els1, dels, dfsig1, dfsig2, nsig1, nsig2
+    , 41  , 0   , 0.25   ,       ,       ,      ,      , @
+  itrsig, sig1, istsig, inomde, itrds,
+  1     , 0.1 , 10    , 2     , 10   , @
+  dfsig, nsig, iscan, sig2,
+       , 2  , 100   , 1.1 , @
+  eltrw1, eltrw2, sgtrw1, sgtrw2
+        ,       ,       ,       , @
+
+cst:
+  cgrav
+  6.67232e-8 @
+
+int:
+  iplneq, iturpr, icow, alb
+        ,       , 2   ,    , @
+  istsbc, fctsbc, ibotbc, fcttbc
+  1     ,       ,       ,       , @
+  mdintg, iriche, xfit, fcnorm, eps  , epssol, itmax
+  5     , 0     , 0.2 ,       , 1.d-9,       , 15   ,, @
+  fsig, dsigmx, irsevn, xmnevn, nftmax, itsord
+      ,       ,       ,       ,       , -1    , @
+
+out:
+  istdpr, nout, nprcen, irsord, iekinr
+  9     , 10  ,       , 20    , 1     , @
+  iper, ivarf, kvarf, npvarf, nfmode,
+  1   ,      ,      ,       , 2     , @
+  irotkr, nprtkr, igm1kr, npgmkr, ispcpr,
+  0     ,       ,       ,       ,       , @
+  icaswn, sigwn1, sigwn2, frqwn1, frqwn2,iorwn1, iorwn2, frlwn1, frlwn2
+  10011 ,       ,       ,       ,       ,-5000 , 100    ,       ,       , @
