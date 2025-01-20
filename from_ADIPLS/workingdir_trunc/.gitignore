@@ -1,0 +1,22 @@
+#output of form-amdl.d
+amdl.l9bi.d.202c
+amdl.l9bi.d.202c.prxt3
+
+#output of redistrb.cy.d
+ttt.red.sun.out
+
+#output of adipls.c.d
+ttt.adi.sun.out
+adipls-status.log
+ttt/*
+agsm.l9bi.d.202c.prxt3
+amde.l9bi.d.202c.prxt3
+
+#Other magically generated stuff
+fort.1
+fort.9
+fort.99
+ttt.adimesh
+ttt.xsi1
+ttt.xsi2
+amdl.reset.redistrb
