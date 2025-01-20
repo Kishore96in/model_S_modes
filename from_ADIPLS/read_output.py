@@ -40,7 +40,11 @@ class Mode():
 
 def read_modes(filename):
 	"""
-	Assumes nfmode=2 (see point 8.4.b of adiab.prg.v0_3.pdf)
+	The eigenfunction output is described in section 8.4 of adiab.prg.v0_3.pdf.
+	
+	This function assumes nfmode=2 (see point 8.4.b of adiab.prg.v0_3.pdf).
+	
+	In `adipls.c.d.f`, the comments (search for `idsefn`) say that the write is as an unformatted Fortran file. In F77, there is only one integer type 'i4', a 4-byte int; there are two float types, 4-byte ('f4') and 8-byte ('f8')
 		
 	Returns:
 		x: fractional radius (mesh coordinates for the eigenfunctions)
