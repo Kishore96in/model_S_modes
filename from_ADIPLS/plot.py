@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
 import subprocess
 import os
@@ -56,7 +57,7 @@ def plot_komega_by_nodes(axs, modes_lists, n_max):
 	
 	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in allmodes]))
 	
-	for n in n_uniq:
+	for n, color in zip(n_uniq, mpl.cm.tab10.colors):
 		if n == n_max:
 			label = rf"$\geq{n}$"
 		elif n == -1:
@@ -71,6 +72,7 @@ def plot_komega_by_nodes(axs, modes_lists, n_max):
 				[mode.omega*1e3 for mode in modes_this_n],
 				label=label,
 				s=3**2,
+				color=color,
 				)
 
 if __name__ == "__main__":
