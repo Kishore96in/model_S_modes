@@ -76,6 +76,8 @@ def plot_komega_by_nodes(axs, modes_lists, n_max):
 				)
 
 if __name__ == "__main__":
+	mpl.style.use("../kishore.mplstyle")
+	
 	x, modes = run_and_get_modes("workingdir")
 	
 	fig,ax = plt.subplots()

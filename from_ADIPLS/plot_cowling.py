@@ -3,6 +3,7 @@ Full radial extent, spherical geometry, Cowling approximation.
 """
 
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
 
 from plot import (
@@ -15,6 +16,8 @@ sys.path.append("..")
 from solar_model import solar_model, read_extensive_model_MmKS as reader #Just to plot some background quantities
 
 if __name__ == "__main__":
+	mpl.style.use("../kishore.mplstyle")
+	
 	x, modes = run_and_get_modes("workingdir_cowling")
 	
 	fig,ax = plt.subplots()
