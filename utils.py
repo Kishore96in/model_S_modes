@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import numbers
 import warnings
+import os
 
 class sci_format():
 	"""
@@ -104,3 +105,31 @@ def add_arrow(line, position=None, size=15):
 		arrowprops=dict(arrowstyle="-|>", color=color),
 		size=size
 	)
+
+class fig_saver():
+	"""
+	Helper to save a figure in a directory, automatically creating the required paths.
+	
+	Arguments:
+		savefig: bool
+		savedir: string, path to save the figure
+	"""
+	def __init__(self, savefig = True, savedir = "."):
+		self.savefig = savefig
+		self.savedir = savedir
+	
+	def __call__(self, fig, name, **kwargs):
+		if not self.savefig:
+			return
+		
+		if not os.path.exists(self.savedir):
+			#Create directory if it does not exist
+			os.makedirs(self.savedir)
+		elif not os.path.isdir(self.savedir):
+			raise FileExistsError(f"Save location {self.savedir} exists but is not a directory.")
+		
+		loc = os.path.join(self.savedir, name)
+		loc_dir = os.path.dirname(loc)
+		if not os.path.exists(loc_dir):
+			os.makedirs(loc_dir)
+		fig.savefig(loc, **kwargs)
