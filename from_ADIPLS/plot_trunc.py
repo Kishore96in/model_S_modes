@@ -1,3 +1,7 @@
+"""
+Truncated (inner 5% of radius removed) calculations in the Cowling approximation.
+"""
+
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
