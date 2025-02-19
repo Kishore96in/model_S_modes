@@ -27,14 +27,7 @@ def run_and_get_modes(dirname):
 	subprocess.run(["make"], cwd=dirname, env=env)
 	return read_modes(os.path.join(dirname, "amde.l9bi.d.202c.prxt3"))
 
-if __name__ == "__main__":
-	x, modes = run_and_get_modes("workingdir")
-	# x, modes = run_and_get_modes("workingdir_cowling")
-	# x, modes = run_and_get_modes("workingdir_trunc")
-	# x, modes = run_and_get_modes("workingdir_truncplane")
-	
-	n_max = 6
-	
+def plot_komega_by_nodes(ax, modes, n_max):
 	for mode in modes:
 		n_this = get_n_nodes(mode)
 		if n_this < 0:
@@ -45,9 +38,6 @@ if __name__ == "__main__":
 			mode.n_nodes_ceil = n_max
 	
 	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in modes]))
-	
-	fig,ax = plt.subplots()
-	ax.set_ymargin(0)
 	
 	for n in n_uniq:
 		if n == n_max:
@@ -64,6 +54,13 @@ if __name__ == "__main__":
 			label=label,
 			s=3**2,
 			)
+
+if __name__ == "__main__":
+	x, modes = run_and_get_modes("workingdir")
+	
+	fig,ax = plt.subplots()
+	ax.set_ymargin(0)
+	plot_komega_by_nodes(ax, modes, n_max=6)
 	
 	model = solar_model("../data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	

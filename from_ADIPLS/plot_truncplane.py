@@ -5,7 +5,10 @@ Truncated (inner 5% of radius removed) plane-parallel calculations in the Cowlin
 import matplotlib.pyplot as plt
 import numpy as np
 
-from plot import get_n_nodes, run_and_get_modes
+from plot import (
+	run_and_get_modes,
+	plot_komega_by_nodes,
+	)
 
 import sys
 sys.path.append("..")
@@ -14,35 +17,8 @@ from solar_model import solar_model, read_extensive_model_MmKS as reader #Just t
 if __name__ == "__main__":
 	x, modes = run_and_get_modes("workingdir_truncplane")
 	
-	n_max = 8
-	
-	for mode in modes:
-		n_this = get_n_nodes(mode)
-		if n_this < 0:
-			mode.n_nodes_ceil = -1
-		elif get_n_nodes(mode) < n_max:
-			mode.n_nodes_ceil = n_this
-		else:
-			mode.n_nodes_ceil = n_max
-	
-	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in modes]))
-	
 	fig,ax = plt.subplots()
-	for n in n_uniq:
-		if n == n_max:
-			label = rf"$\geq{n}$"
-		elif n == -1:
-			label = rf"$<0$"
-		else:
-			label = rf"${n}$"
-		
-		modes_this_n = [mode for mode in modes if mode.n_nodes_ceil == n]
-		ax.scatter(
-			[mode.l for mode in modes_this_n],
-			[mode.omega*1e3 for mode in modes_this_n],
-			label=label,
-			s=3**2,
-			)
+	plot_komega_by_nodes(ax, modes, n_max=8)
 	
 	model = solar_model("../data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	
