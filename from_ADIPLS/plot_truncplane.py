@@ -1,5 +1,5 @@
 """
-Truncated (inner 5% of radius removed) plane-parallel calculations.
+Truncated (inner 5% of radius removed) plane-parallel calculations in the Cowling approximation.
 """
 
 import matplotlib.pyplot as plt
