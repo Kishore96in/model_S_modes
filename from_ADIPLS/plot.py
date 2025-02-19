@@ -88,4 +88,6 @@ if __name__ == "__main__":
 	ax.set_xlabel(r"$\ell$")
 	ax.legend(loc='lower right', title="Nodes")
 	
+	ax.axvline(1, c='0.7', ls='-', zorder=0.9) #appear below the scatter points
+	
 	save(fig, "komega_full.pdf")
