@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
 import os
+import itertools
 
 from read_output import read_modes
 
@@ -27,8 +28,24 @@ def run_and_get_modes(dirname):
 	subprocess.run(["make"], cwd=dirname, env=env)
 	return read_modes(os.path.join(dirname, "amde.l9bi.d.202c.prxt3"))
 
-def plot_komega_by_nodes(ax, modes, n_max):
-	for mode in modes:
+def plot_komega_by_nodes(axs, modes_lists, n_max):
+	"""
+	Arguments
+		axs: list of mpl Axes objects
+		modes_lists: list of list of read_output.py::Mode instances. The outer list should be of the same length as axs. Each element of the outer list will be plotted in the corresponding element of axs.
+		n_max: int. Maximum number of nodes that should be marked with a unique colour.
+	"""
+	
+	if not np.iterable(axs):
+		axs = [axs]
+		modes_lists = [modes_lists]
+	
+	if len(axs) != len(modes_lists):
+		raise ValueError("axs and modes_lists are of unequal lengths")
+	
+	allmodes = list(itertools.chain(*modes_lists))
+	
+	for mode in allmodes:
 		n_this = get_n_nodes(mode)
 		if n_this < 0:
 			mode.n_nodes_ceil = -1
@@ -37,7 +54,7 @@ def plot_komega_by_nodes(ax, modes, n_max):
 		else:
 			mode.n_nodes_ceil = n_max
 	
-	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in modes]))
+	n_uniq = np.sort(np.unique([mode.n_nodes_ceil for mode in allmodes]))
 	
 	for n in n_uniq:
 		if n == n_max:
@@ -47,13 +64,14 @@ def plot_komega_by_nodes(ax, modes, n_max):
 		else:
 			label = rf"${n}$"
 		
-		modes_this_n = [mode for mode in modes if mode.n_nodes_ceil == n]
-		ax.scatter(
-			[mode.l for mode in modes_this_n],
-			[mode.omega*1e3 for mode in modes_this_n],
-			label=label,
-			s=3**2,
-			)
+		for ax, modes in zip(axs, modes_lists):
+			modes_this_n = [mode for mode in modes if mode.n_nodes_ceil == n]
+			ax.scatter(
+				[mode.l for mode in modes_this_n],
+				[mode.omega*1e3 for mode in modes_this_n],
+				label=label,
+				s=3**2,
+				)
 
 if __name__ == "__main__":
 	x, modes = run_and_get_modes("workingdir")
