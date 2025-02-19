@@ -1,6 +1,5 @@
 """
 Generate a background model by reading simulation data (horizontal averages)
-
 """
 
 import numpy as np
