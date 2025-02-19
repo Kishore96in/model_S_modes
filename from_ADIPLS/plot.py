@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	# x, modes = run_and_get_modes("workingdir_trunc")
 	# x, modes = run_and_get_modes("workingdir_truncplane")
 	
-	n_max = 8
+	n_max = 6
 	
 	for mode in modes:
 		n_this = get_n_nodes(mode)
