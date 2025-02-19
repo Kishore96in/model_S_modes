@@ -11,8 +11,14 @@ from plot import (
 	plot_komega_by_nodes,
 	)
 
+import sys
+sys.path.append("..")
+from utils import fig_saver
+
+
 if __name__ == "__main__":
 	mpl.style.use("../kishore.mplstyle")
+	save = fig_saver(savedir="plots")
 	
 	x, modes = run_and_get_modes("workingdir_cowling")
 	
@@ -23,4 +29,4 @@ if __name__ == "__main__":
 	ax.set_xlabel(r"$\ell$")
 	ax.legend(loc='lower right')
 	
-	plt.show()
+	save(fig, "komega_cow.pdf")

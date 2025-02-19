@@ -12,9 +12,11 @@ from plot import run_and_get_modes, plot_komega_by_nodes
 import sys
 sys.path.append("..")
 from solar_model import solar_model, read_extensive_model_MmKS as reader #Just to plot some background quantities
+from utils import fig_saver
 
 if __name__ == "__main__":
 	mpl.style.use("../kishore.mplstyle")
+	save = fig_saver(savedir="plots")
 	
 	x, modes = run_and_get_modes("workingdir_trunc")
 	x_hil, modes_hil = run_and_get_modes("workingdir_trunc_hil")
@@ -48,4 +50,4 @@ if __name__ == "__main__":
 	fig.legend(*axs[0].get_legend_handles_labels(), loc='outside right')
 	fig.set_size_inches(5,3)
 	
-	plt.show()
+	save(fig, "komega_trunc_cow.pdf")

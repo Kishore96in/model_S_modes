@@ -9,7 +9,7 @@ from read_output import read_modes
 
 import sys
 sys.path.append("..")
-from utils import count_zero_crossings
+from utils import count_zero_crossings, fig_saver
 
 
 def get_n_nodes(mode):
@@ -76,6 +76,7 @@ def plot_komega_by_nodes(axs, modes_lists, n_max):
 
 if __name__ == "__main__":
 	mpl.style.use("../kishore.mplstyle")
+	save = fig_saver(savedir="plots")
 	
 	x, modes = run_and_get_modes("workingdir")
 	
@@ -87,4 +88,4 @@ if __name__ == "__main__":
 	ax.set_xlabel(r"$\ell$")
 	ax.legend(loc='lower right')
 	
-	plt.show()
+	save(fig, "komega_full.pdf")

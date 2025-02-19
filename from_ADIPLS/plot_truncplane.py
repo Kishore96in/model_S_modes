@@ -14,9 +14,11 @@ from plot import (
 import sys
 sys.path.append("..")
 from solar_model import solar_model, read_extensive_model_MmKS as reader #Just to plot some background quantities
+from utils import fig_saver
 
 if __name__ == "__main__":
 	mpl.style.use("../kishore.mplstyle")
+	save = fig_saver(savedir="plots")
 	
 	x, modes = run_and_get_modes("workingdir_truncplane")
 	
@@ -41,4 +43,4 @@ if __name__ == "__main__":
 	ax.set_xlabel(r"$\ell$")
 	ax.legend(loc='lower right')
 	
-	plt.show()
+	save(fig, "komega_trunc_plane_cow.pdf")
