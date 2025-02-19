@@ -86,6 +86,6 @@ if __name__ == "__main__":
 	
 	ax.set_ylabel(r"$\omega$ (mHz)")
 	ax.set_xlabel(r"$\ell$")
-	ax.legend(loc='lower right')
+	ax.legend(loc='lower right', title="Nodes")
 	
 	save(fig, "komega_full.pdf")

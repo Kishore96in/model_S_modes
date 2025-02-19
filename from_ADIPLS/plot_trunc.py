@@ -47,7 +47,7 @@ if __name__ == "__main__":
 		ax.set_xlabel(r"$\ell$")
 	
 	axs[0].set_ylabel(r"$\omega$ (mHz)")
-	fig.legend(*axs[0].get_legend_handles_labels(), loc='outside right')
+	fig.legend(*axs[0].get_legend_handles_labels(), loc='outside right', title="Nodes")
 	fig.set_size_inches(5,3)
 	
 	save(fig, "komega_trunc_cow.pdf")
