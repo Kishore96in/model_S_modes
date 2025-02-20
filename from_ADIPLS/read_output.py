@@ -22,10 +22,11 @@ class Mode():
 		self._ics = ics[:12]
 		self.y = y
 		
+		G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS units: cm^3 g^{-1} s^{-2}
+		
 		#NOTE: see section 8.2 of adiab.prg.v0_3.pdf for the meaning of the various elements of cs and ics
+		M = cs[1]
 		R = cs[2]
-		p_c = cs[3]
-		rho_c = cs[4]
 		self.l = cs[17]
 		self.n = int(cs[18])
 		sigma2 = cs[19]
@@ -36,7 +37,7 @@ class Mode():
 		
 		#'Derived' quantities
 		self.n_nodes = self.nordp + self.nordg
-		self.omega = np.sqrt(sigma2*p_c/rho_c)/R
+		self.omega = np.sqrt(sigma2*G*M/R**3)
 
 def read_modes(filename):
 	"""
