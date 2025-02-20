@@ -25,7 +25,7 @@ def run_and_get_modes(dirname):
 	output = pipe.communicate()[0]
 	env = dict((line.split("=", 1) for line in output.splitlines()))
 	
-	subprocess.run(["make"], cwd=dirname, env=env)
+	subprocess.run(["make"], cwd=dirname, env=env, check=True)
 	return read_modes(os.path.join(dirname, "amde.l9bi.d.202c.prxt3"))
 
 def plot_komega_by_nodes(axs, modes_lists, n_max):
