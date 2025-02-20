@@ -27,9 +27,13 @@ if __name__ == "__main__":
 	
 	model = solar_model("../data/Model S extensive/fgong.l5bi.d.15", reader=reader)
 	
+	#Sanity checks
+	R_sun = abs(model.z_min) #Assume the given model extends to the center of the Sun
+	R = modes[0].R/1e8 #reference radius used by ADIPLS (converted from cm to Mm)
+	assert np.isclose(R_sun, R)
+	
 	#Theoretical frequency of the f mode
 	ell = np.linspace(0, ax.get_xlim()[1], 1000)
-	R_sun = abs(model.z_min) #Assume the given model extends to the center of the Sun
 	k = ell/R_sun #equation A7 of adiab.prg.v0_3.pdf
 	g = abs(model.g(0))
 	ax.autoscale(False)

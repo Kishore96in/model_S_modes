@@ -38,6 +38,9 @@ class Mode():
 		#'Derived' quantities
 		self.n_nodes = self.nordp + self.nordg
 		self.omega = np.sqrt(sigma2*G*M/R**3)
+		
+		#Useful global quantities
+		self.R = R
 
 def read_modes(filename):
 	"""
