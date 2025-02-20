@@ -35,7 +35,7 @@ cst:
 
 int:
   iplneq, iturpr, icow, alb
-        ,       , 2   ,    , @
+        ,       , 3   ,    , @
   istsbc, fctsbc, ibotbc, fcttbc
   1     ,       ,       ,       , @
   mdintg, iriche, xfit, fcnorm, eps  , epssol, itmax
