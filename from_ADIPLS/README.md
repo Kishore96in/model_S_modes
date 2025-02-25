@@ -54,3 +54,12 @@ Some quick notes:
 See section 8.1 of `notes/adiab.prg.v0_3.pdf` for the format used for the output.
 
 To read the eigenfunction output into Python, use the function `read_modes` from `read_output.py`
+
+# Plot scripts
+
+The following scripts run the calculations for the indicated cases and plot k-omega diagrams
+
+- plot_truncplane.py: truncated radial extent, plane-parallel geometry, Cowling approximation
+- plot_trunc.py: truncated radial extent, spherical geometry, Cowling approximation
+- plot_cowling.py: full radial extent, Cowling approximation
+- plot.py: full non-Cowling calculation
