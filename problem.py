@@ -75,6 +75,7 @@ def bc(y_bot, y_top, p, k, model, z_bot, z_top):
 		y2_bot,
 		omega*y1_top - (y2_top/c_top)*rhoinv_grad_p_top,
 		y3_bot,
+		#the below is to ensure that omega remains positive
 		y3_top - np.sign(np.real(omega)),
 		])
 
