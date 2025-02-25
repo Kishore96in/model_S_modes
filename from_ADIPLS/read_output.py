@@ -22,7 +22,7 @@ class Mode():
 		self._ics = ics[:12]
 		self.y = y
 		
-		G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS units: cm^3 g^{-1} s^{-2}
+		G = 6.67408e-11 * 1e2**3 * 1e-3 #CGS units: cm^3 g^{-1} s^{-2}; note that this is cgrav in adipls.sun.in
 		
 		#NOTE: see section 8.2 of adiab.prg.v0_3.pdf for the meaning of the various elements of cs and ics
 		M = cs[1]
